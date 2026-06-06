@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>春秋洗衣部 · 毛巾回報</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
+:root{--bg:#0f1117;--sf:#1a1d27;--sf2:#22263a;--bd:#2e3248;--blue:#4a9eff;--green:#3dd68c;--red:#ff5c5c;--yellow:#f5c842;--tp:#e8eaf0;--ts:#8b91a8;--td:#4a5068;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--tp);min-height:100vh;}
+.view{display:none;min-height:100vh;flex-direction:column;}
+.view.active{display:flex;}
+
+/* HOME */
+#home{align-items:center;justify-content:center;padding:40px 20px;}
+#home::before{content:'';position:fixed;top:-200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(74,158,255,.08) 0%,transparent 70%);pointer-events:none;}
+.home-header{text-align:center;margin-bottom:48px;}
+.home-title{font-size:clamp(26px,7vw,40px);font-weight:900;line-height:1.1;margin-bottom:8px;}
+.home-title span{color:var(--blue);}
+.home-sub{color:var(--ts);font-size:13px;letter-spacing:2.5px;text-transform:uppercase;}
+.home-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:460px;}
+.home-card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:26px 18px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent;}
+.home-card:active{transform:scale(.97);}
+.home-card:hover{border-color:var(--blue);background:var(--sf2);}
+.home-card.ac:hover{border-color:var(--green);}
+.card-icon{font-size:34px;}
+.card-label{font-size:15px;font-weight:700;}
+.card-desc{font-size:12px;color:var(--ts);text-align:center;line-height:1.5;}
+
+/* SHARED HEADER */
+.ph{background:var(--sf);border-bottom:1px solid var(--bd);padding:16px 18px;position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:12px;}
+.back{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;color:var(--ts);font-size:18px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.15s;}
+.back:hover{color:var(--tp);border-color:var(--blue);}
+.ph-info{flex:1;}
+.ph-title{font-size:16px;font-weight:700;}
+.ph-sub{font-size:12px;color:var(--ts);margin-top:2px;}
+.dl-badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap;}
+.dl-badge.ok{background:var(--green);color:#0f1117;}
+
+/* BRANCH */
+#branch{max-width:540px;margin:0 auto;width:100%;}
+.bb{padding:22px 18px;flex:1;}
+.sl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ts);margin-bottom:12px;}
+.bsel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:28px;}
+.bbtn{background:var(--sf);border:1px solid var(--bd);border-radius:10px;color:var(--ts);font-size:13px;font-weight:500;font-family:'Noto Sans TC',sans-serif;padding:10px 4px;cursor:pointer;transition:.15s;text-align:center;-webkit-tap-highlight-color:transparent;}
+.bbtn:active{transform:scale(.95);}
+.bbtn.sel{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;}
+.bbtn.sub{background:rgba(61,214,140,.12);border-color:var(--green);color:var(--green);}
+
+.tsec{display:none;margin-bottom:28px;}
+.tsec.vis{display:block;}
+
+.cur-val{background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.3);border-radius:12px;padding:13px 15px;margin-bottom:14px;font-size:13px;color:var(--ts);line-height:1.6;}
+.cur-val strong{color:var(--blue);}
+
+.tinputs{display:flex;flex-direction:column;gap:14px;}
+.trow{display:flex;align-items:center;gap:14px;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:15px 18px;}
+.cdot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+.cdot.b{background:var(--blue);}
+.cdot.w{background:#d0d4e0;border:1px solid var(--bd);}
+.tlabel{flex:1;font-size:15px;font-weight:500;}
+.tlabel small{display:block;font-size:11px;color:var(--ts);margin-top:2px;}
+.qc{display:flex;align-items:center;gap:8px;}
+.qbtn{width:36px;height:36px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--tp);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.12s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;}
+.qbtn:active{transform:scale(.88);}
+.qinp{width:52px;text-align:center;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;color:var(--tp);font-family:'DM Mono',monospace;font-size:18px;font-weight:500;padding:6px 4px;-moz-appearance:textfield;}
+.qinp::-webkit-inner-spin-button,.qinp::-webkit-outer-spin-button{-webkit-appearance:none;}
+.qinp:focus{outline:none;border-color:var(--blue);}
+.noteinp{width:100%;background:var(--sf);border:1px solid var(--bd);border-radius:12px;color:var(--tp);font-family:'Noto Sans TC',sans-serif;font-size:14px;padding:12px 15px;resize:none;height:62px;margin-top:12px;}
+.noteinp:focus{outline:none;border-color:var(--blue);}
+.noteinp::placeholder{color:var(--td);}
+.subbtn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:14px;font-family:'Noto Sans TC',sans-serif;font-size:16px;font-weight:700;padding:15px;cursor:pointer;transition:.15s;margin-top:14px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.subbtn:active{transform:scale(.98);}
+.subbtn:disabled{background:var(--td);cursor:not-allowed;}
+
+/* ADMIN */
+#admin{max-width:700px;margin:0 auto;width:100%;padding-bottom:40px;}
+.ab{padding:18px;}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+.sc{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:13px;text-align:center;}
+.sc .sn{font-family:'DM Mono',monospace;font-size:26px;font-weight:500;line-height:1;margin-bottom:4px;}
+.sc .slb{font-size:11px;color:var(--ts);letter-spacing:1px;}
+.sc.bl .sn{color:var(--blue);}
+.sc.wh .sn{color:#e8eaf0;}
+.sc.rp .sn{color:var(--green);}
+.pgbar-bg{background:var(--sf2);border-radius:4px;height:6px;overflow:hidden;margin-bottom:22px;}
+.pgbar-fill{height:100%;background:var(--green);border-radius:4px;transition:width .4s;}
+.aa{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+.ddisp{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:9px 14px;font-family:'DM Mono',monospace;font-size:13px;color:var(--ts);}
+.abtn{background:var(--sf2);border:1px solid var(--bd);border-radius:10px;color:var(--ts);font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:.15s;}
+.abtn:hover{border-color:var(--blue);color:var(--tp);}
+.abtn.cpd{border-color:var(--green);color:var(--green);}
+.lr{font-size:11px;color:var(--td);font-family:'DM Mono',monospace;margin-left:auto;}
+.blist{display:flex;flex-direction:column;gap:8px;}
+.brow{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.brow.done{border-color:rgba(61,214,140,.3);background:rgba(61,214,140,.04);}
+.brow.od{border-color:rgba(255,92,92,.3);background:rgba(255,92,92,.04);}
+.brname{font-size:14px;font-weight:600;min-width:52px;flex-shrink:0;}
+.brdata{flex:1;display:flex;flex-direction:column;gap:4px;}
+.dchips{display:flex;gap:14px;}
+.dc{display:flex;align-items:center;gap:5px;font-size:13px;font-family:'DM Mono',monospace;}
+.dc .d{width:8px;height:8px;border-radius:50%;}
+.dc .d.b{background:var(--blue);}
+.dc .d.w{background:#c0c4d0;border:1px solid #666;}
+.brnote{font-size:11px;color:var(--ts);font-style:italic;}
+.brtime{font-size:11px;color:var(--td);font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0;}
+.brstatus{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.std{background:rgba(61,214,140,.15);color:var(--green);}
+.stw{background:rgba(139,145,168,.15);color:var(--ts);}
+.sto{background:rgba(255,92,92,.15);color:var(--red);}
+
+/* spinner */
+.sp{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* config panel */
+.cfg-panel{background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.4);border-radius:14px;padding:18px;margin-bottom:22px;}
+.cfg-panel h3{font-size:14px;font-weight:700;color:var(--yellow);margin-bottom:12px;}
+.cfg-steps{display:flex;flex-direction:column;gap:10px;}
+.cfg-step{font-size:13px;color:var(--ts);line-height:1.7;}
+.cfg-step strong{color:var(--tp);}
+.cfg-step code{background:rgba(255,255,255,.08);padding:2px 7px;border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;color:var(--yellow);word-break:break-all;}
+.cfg-input-row{display:flex;gap:8px;margin-top:14px;}
+.cfg-input{flex:1;background:var(--sf2);border:1px solid var(--bd);border-radius:10px;color:var(--tp);font-family:'DM Mono',monospace;font-size:12px;padding:10px 13px;}
+.cfg-input:focus{outline:none;border-color:var(--blue);}
+.cfg-input::placeholder{color:var(--td);}
+.cfg-save{background:var(--yellow);color:#1a1400;border:none;border-radius:10px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:10px 16px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+
+/* toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a2a1a;border:1px solid var(--green);color:var(--green);padding:11px 22px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.err{background:#2a1a1a;border-color:var(--red);color:var(--red);}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home" class="view active">
+  <div class="home-header">
+    <div class="home-title">春秋 <span>洗衣部</span><br>毛巾回報系統</div>
+    <div class="home-sub">Towel Management · Daily Report</div>
+  </div>
+  <div class="home-cards">
+    <div class="home-card" onclick="goTo('branch')">
+      <div class="card-icon">🏪</div>
+      <div class="card-label">分店回報</div>
+      <div class="card-desc">填寫今日藍色・白色毛巾需求數量</div>
+    </div>
+    <div class="home-card ac" onclick="goTo('admin')">
+      <div class="card-icon">📊</div>
+      <div class="card-label">管理後台</div>
+      <div class="card-desc">查看所有分店回報進度與總計</div>
+    </div>
+  </div>
+</div>
+
+<!-- BRANCH -->
+<div id="branch" class="view">
+  <div class="ph">
+    <div class="back" onclick="goTo('home')">←</div>
+    <div class="ph-info"><div class="ph-title">分店毛巾回報</div><div class="ph-sub">請於 19:00 前完成填寫</div></div>
+    <div class="dl-badge" id="dlBadge">--:--</div>
+  </div>
+  <div class="bb">
+    <div class="sl">選擇分店</div>
+    <div class="bsel" id="bsel"></div>
+    <div class="tsec" id="tsec">
+      <div class="cur-val" id="curVal" style="display:none"></div>
+      <div class="sl" style="margin-bottom:14px">填寫需求數量</div>
+      <div class="tinputs">
+        <div class="trow">
+          <div class="cdot b"></div>
+          <div class="tlabel">藍色毛巾<small>Blue Towels</small></div>
+          <div class="qc">
+            <button class="qbtn" onclick="chg('blue',-1)">−</button>
+            <input class="qinp" type="number" id="blueQ" value="0" min="0" max="999">
+            <button class="qbtn" onclick="chg('blue',1)">+</button>
+          </div>
+        </div>
+        <div class="trow">
+          <div class="cdot w"></div>
+          <div class="tlabel">白色毛巾<small>White Towels</small></div>
+          <div class="qc">
+            <button class="qbtn" onclick="chg('white',-1)">−</button>
+            <input class="qinp" type="number" id="whiteQ" value="0" min="0" max="999">
+            <button class="qbtn" onclick="chg('white',1)">+</button>
+          </div>
+        </div>
+      </div>
+      <textarea class="noteinp" id="noteInp" placeholder="備註（選填）…"></textarea>
+      <button class="subbtn" id="subBtn" onclick="submitReport()" disabled>請先選擇分店</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="view">
+  <div class="ph">
+    <div class="back" onclick="goTo('home')">←</div>
+    <div class="ph-info"><div class="ph-title">管理後台</div><div class="ph-sub">即時回報總覽 · 每30秒自動更新</div></div>
+  </div>
+  <div class="ab">
+    <div class="aa">
+      <div class="ddisp" id="adminDate">--</div>
+      <button class="abtn" onclick="loadAdmin()">🔄 更新</button>
+      <button class="abtn" id="cpBtn" onclick="copyRpt()">📋 複製統計</button>
+      <div class="lr" id="lr"></div>
+    </div>
+    <div class="sg">
+      <div class="sc rp"><div class="sn" id="sumR">—</div><div class="slb">已回報 / 20</div></div>
+      <div class="sc bl"><div class="sn" id="sumB">—</div><div class="slb">藍色 總計</div></div>
+      <div class="sc wh"><div class="sn" id="sumW">—</div><div class="slb">白色 總計</div></div>
+    </div>
+    <div class="pgbar-bg"><div class="pgbar-fill" id="pgfill" style="width:0%"></div></div>
+    <div class="blist" id="blist"><div style="text-align:center;color:var(--td);padding:40px 0;font-size:14px;">載入中…</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+//  設定：把你的 Apps Script 部署網址貼這裡
+// ═══════════════════════════════════════
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzPbTT2bzB1U5wRdphwWasD4wcttH-8l-dvVwF4cZU5wAWK8eL7AyY3yAiT0vVDZ_Zn/exec';
+
+var BRANCHES=['板橋','樹泰','中和','板漢','永和','微風','A9','行善','金莊','汐止一','汐止二','民生','蘭雅','天母','石牌','士林','通化一','通化二','安和','中山'];
+var DL_HOUR=19;
+var cache={};
+var selBranch=null;
+var adminTimer=null;
+
+function nowT(){return new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});}
+
+// ─── view ───
+function goTo(v){
+  document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
+  document.getElementById(v).classList.add('active');
+  window.scrollTo(0,0);
+  if(v==='branch') initBranch();
+  if(v==='admin'){loadAdmin();adminTimer=setInterval(loadAdmin,30000);}
+  else{clearInterval(adminTimer);}
+}
+
+// ─── api ───
+function configured(){return SCRIPT_URL && SCRIPT_URL.indexOf('https://')===0;}
+
+async function apiGet(){
+  if(!configured()) return JSON.parse(localStorage.getItem('demo')||'{}');
+  var r=await fetch(SCRIPT_URL+'?action=get&t='+Date.now());
+  var j=await r.json();
+  return j.data||{};
+}
+
+async function apiSet(branch,blue,white,note){
+  if(!configured()){
+    var d=JSON.parse(localStorage.getItem('demo')||'{}');
+    d[branch]={blue:blue,white:white,note:note,time:nowT()};
+    localStorage.setItem('demo',JSON.stringify(d));
+    return {ok:true};
+  }
+  var r=await fetch(SCRIPT_URL,{
+    method:'POST',
+    body:JSON.stringify({action:'set',branch:branch,blue:blue,white:white,note:note,time:nowT()})
+  });
+  return await r.json();
+}
+
+// ─── deadline ───
+function updateBadge(){
+  var el=document.getElementById('dlBadge');
+  if(!el) return;
+  var now=new Date(), dl=new Date();
+  dl.setHours(DL_HOUR,0,0,0);
+  var diff=dl-now;
+  if(diff<=0){el.textContent='已截止';el.classList.remove('ok');return;}
+  var h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000);
+  el.textContent=h>0?('剩 '+h+'h '+m+'m'):('剩 '+m+'m');
+  el.classList.toggle('ok',diff>7200000);
+}
+
+// ─── branch view ───
+async function initBranch(){
+  selBranch=null;
+  updateBadge();
+  try{ cache=await apiGet(); }catch(e){ cache=JSON.parse(localStorage.getItem('demo')||'{}'); }
+
+  var sel=document.getElementById('bsel');
+  sel.innerHTML='';
+  BRANCHES.forEach(function(b){
+    var btn=document.createElement('button');
+    btn.className='bbtn'+(cache[b]?' sub':'');
+    btn.textContent=b;
+    btn.onclick=function(){selBranch=b;renderBranchForm();}; 
+    sel.appendChild(btn);
+  });
+  document.getElementById('tsec').classList.remove('vis');
+}
+
+function renderBranchForm(){
+  if(!selBranch) return;
+  document.querySelectorAll('.bbtn').forEach(function(b){
+    b.classList.toggle('sel',b.textContent===selBranch);
+  });
+  var tsec=document.getElementById('tsec');
+  tsec.classList.add('vis');
+  var d=cache[selBranch];
+  var cv=document.getElementById('curVal');
+  var sb=document.getElementById('subBtn');
+  if(d){
+    cv.style.display='block';
+    cv.innerHTML='目前已回報：<strong>藍色 '+d.blue+' 條、白色 '+d.white+' 條</strong>（'+d.time+'）<br><small style="color:var(--td)">可修改後重新送出更新</small>';
+    document.getElementById('blueQ').value=d.blue;
+    document.getElementById('whiteQ').value=d.white;
+    document.getElementById('noteInp').value=d.note||'';
+    sb.disabled=false;
+    sb.textContent='更新 '+selBranch+' 的數量';
+    sb.style.background='var(--yellow)';
+    sb.style.color='#1a1400';
+  } else {
+    cv.style.display='none';
+    document.getElementById('blueQ').value=0;
+    document.getElementById('whiteQ').value=0;
+    document.getElementById('noteInp').value='';
+    sb.disabled=false;
+    sb.textContent='確認送出 · '+selBranch;
+    sb.style.background='';
+    sb.style.color='';
+  }
+  tsec.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function chg(c,d){
+  var inp=document.getElementById(c==='blue'?'blueQ':'whiteQ');
+  inp.value=Math.max(0,Math.min(999,(parseInt(inp.value)||0)+d));
+}
+
+async function submitReport(){
+  if(!selBranch) return;
+  var blue=parseInt(document.getElementById('blueQ').value)||0;
+  var white=parseInt(document.getElementById('whiteQ').value)||0;
+  var note=document.getElementById('noteInp').value.trim();
+  var sb=document.getElementById('subBtn');
+  sb.disabled=true;
+  sb.innerHTML='<span class="sp"></span>送出中…';
+  try{
+    await apiSet(selBranch,blue,white,note);
+    cache[selBranch]={blue:blue,white:white,note:note,time:nowT()};
+    document.querySelectorAll('.bbtn').forEach(function(b){
+      if(b.textContent===selBranch){b.classList.add('sub');b.classList.remove('sel');}
+    });
+    toast('✅ '+selBranch+' 回報成功！');
+    selBranch=null;
+    document.getElementById('tsec').classList.remove('vis');
+  }catch(e){
+    toast('❌ 送出失敗，請檢查網路',true);
+    sb.disabled=false;
+    sb.textContent='重試';
+  }
+}
+
+// ─── admin ───
+async function loadAdmin(){
+  try{
+    cache=await apiGet();
+    renderAdmin(cache);
+    document.getElementById('lr').textContent='更新於 '+nowT();
+  }catch(e){toast('載入失敗',true);}
+}
+
+function renderAdmin(data){
+  var now=new Date(), dl=new Date();
+  dl.setHours(DL_HOUR,0,0,0);
+  var past=now>dl;
+  var tb=0,tw=0,rp=0;
+  BRANCHES.forEach(function(b){if(data[b]){tb+=data[b].blue;tw+=data[b].white;rp++;}});
+  document.getElementById('sumR').textContent=rp;
+  document.getElementById('sumB').textContent=tb;
+  document.getElementById('sumW').textContent=tw;
+  var pct=Math.round(rp/BRANCHES.length*100);
+  document.getElementById('pgfill').style.width=pct+'%';
+  document.getElementById('adminDate').textContent=now.toLocaleDateString('zh-TW',{month:'long',day:'numeric',weekday:'short'});
+  var list=document.getElementById('blist');
+  list.innerHTML='';
+  BRANCHES.forEach(function(b){
+    var d=data[b];
+    var row=document.createElement('div');
+    row.className='brow'+(d?' done':(past?' od':''));
+    if(d){
+      row.innerHTML='<div class="brname">'+b+'</div><div class="brdata"><div class="dchips"><div class="dc"><div class="d b"></div>'+d.blue+' 條</div><div class="dc"><div class="d w"></div>'+d.white+' 條</div></div>'+(d.note?'<div class="brnote">💬 '+d.note+'</div>':'')+'</div><div class="brtime">'+d.time+'</div><div class="brstatus std">已回報</div>';
+    } else {
+      row.innerHTML='<div class="brname">'+b+'</div><div class="brdata"><div style="font-size:13px;color:var(--td)">尚未回報</div></div><div class="brstatus '+(past?'sto':'stw')+'">'+(past?'逾時':'待回報')+'</div>';
+    }
+    list.appendChild(row);
+  });
+}
+
+function copyRpt(){
+  var now=new Date();
+  var today=now.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric'});
+  var txt='📋 春秋洗衣部 毛巾回報 '+today+'\n━━━━━━━━━━━━━━━━\n';
+  var tb=0,tw=0,rp=0;
+  BRANCHES.forEach(function(b){
+    var d=cache[b];
+    if(d){txt+=b.padEnd(4)+'　藍 '+String(d.blue).padStart(2)+' 條　白 '+String(d.white).padStart(2)+' 條'+(d.note?'　('+d.note+')':'')+'\n';tb+=d.blue;tw+=d.white;rp++;}
+    else{txt+=b.padEnd(4)+'　⚠️ 未回報\n';}
+  });
+  txt+='━━━━━━━━━━━━━━━━\n合計　藍 '+tb+' 條　白 '+tw+' 條\n回報進度 '+rp+'/'+BRANCHES.length;
+  navigator.clipboard.writeText(txt).then(function(){
+    var btn=document.getElementById('cpBtn');
+    btn.textContent='✅ 已複製！';btn.classList.add('cpd');
+    setTimeout(function(){btn.textContent='📋 複製統計';btn.classList.remove('cpd');},2000);
+  }).catch(function(){toast('複製失敗',true);});
+}
+
+// ─── toast ───
+function toast(msg,err){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(err?' err':'');
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2800);
+}
+
+updateBadge();
+setInterval(updateBadge,60000);
+</script>
+</body>
+</html>
