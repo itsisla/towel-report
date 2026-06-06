@@ -145,7 +145,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--tp);
     <div class="home-card" onclick="goTo('branch')">
       <div class="card-icon">🏪</div>
       <div class="card-label">分店回報</div>
-      <div class="card-desc">填寫今日藍色・白色毛巾需求數量</div>
+      <div class="card-desc">填寫今日藍色・白色毛巾需求籃數</div>
     </div>
     <div class="home-card ac" onclick="goTo('admin')">
       <div class="card-icon">📊</div>
@@ -209,8 +209,8 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--tp);
     </div>
     <div class="sg">
       <div class="sc rp"><div class="sn" id="sumR">—</div><div class="slb">已回報 / 20</div></div>
-      <div class="sc bl"><div class="sn" id="sumB">—</div><div class="slb">藍色 總計</div></div>
-      <div class="sc wh"><div class="sn" id="sumW">—</div><div class="slb">白色 總計</div></div>
+      <div class="sc bl"><div class="sn" id="sumB">—</div><div class="slb">藍色 總計（籃）</div></div>
+      <div class="sc wh"><div class="sn" id="sumW">—</div><div class="slb">白色 總計（籃）</div></div>
     </div>
     <div class="pgbar-bg"><div class="pgbar-fill" id="pgfill" style="width:0%"></div></div>
     <div class="blist" id="blist"><div style="text-align:center;color:var(--td);padding:40px 0;font-size:14px;">載入中…</div></div>
@@ -232,6 +232,22 @@ var selBranch=null;
 var adminTimer=null;
 
 function nowT(){return new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});}
+
+// Google Sheets sometimes converts time strings to date serial numbers
+// safeTime extracts only HH:MM from whatever format comes back
+function safeTime(t){
+  if(!t) return '';
+  var s=String(t);
+  // if it's already HH:MM format
+  var m=s.match(/(\d{1,2}:\d{2})/);
+  if(m) return m[1];
+  // if it's a full date string, extract time portion
+  try{
+    var d=new Date(s);
+    if(!isNaN(d.getTime())) return d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){}
+  return s;
+}
 
 // ─── view ───
 function goTo(v){
@@ -310,7 +326,7 @@ function renderBranchForm(){
   var sb=document.getElementById('subBtn');
   if(d){
     cv.style.display='block';
-    cv.innerHTML='目前已回報：<strong>藍色 '+d.blue+' 條、白色 '+d.white+' 條</strong>（'+d.time+'）<br><small style="color:var(--td)">可修改後重新送出更新</small>';
+    cv.innerHTML='目前已回報：<strong>藍色 '+d.blue+' 籃、白色 '+d.white+' 籃</strong>（'+d.time+'）<br><small style="color:var(--td)">可修改後重新送出更新</small>';
     document.getElementById('blueQ').value=d.blue;
     document.getElementById('whiteQ').value=d.white;
     document.getElementById('noteInp').value=d.note||'';
@@ -388,7 +404,7 @@ function renderAdmin(data){
     var row=document.createElement('div');
     row.className='brow'+(d?' done':(past?' od':''));
     if(d){
-      row.innerHTML='<div class="brname">'+b+'</div><div class="brdata"><div class="dchips"><div class="dc"><div class="d b"></div>'+d.blue+' 條</div><div class="dc"><div class="d w"></div>'+d.white+' 條</div></div>'+(d.note?'<div class="brnote">💬 '+d.note+'</div>':'')+'</div><div class="brtime">'+d.time+'</div><div class="brstatus std">已回報</div>';
+      row.innerHTML='<div class="brname">'+b+'</div><div class="brdata"><div class="dchips"><div class="dc"><div class="d b"></div>'+d.blue+' 籃</div><div class="dc"><div class="d w"></div>'+d.white+' 籃</div></div>'+(d.note?'<div class="brnote">💬 '+d.note+'</div>':'')+'</div><div class="brtime">'+safeTime(d.time)+'</div><div class="brstatus std">已回報</div>';
     } else {
       row.innerHTML='<div class="brname">'+b+'</div><div class="brdata"><div style="font-size:13px;color:var(--td)">尚未回報</div></div><div class="brstatus '+(past?'sto':'stw')+'">'+(past?'逾時':'待回報')+'</div>';
     }
@@ -403,10 +419,10 @@ function copyRpt(){
   var tb=0,tw=0,rp=0;
   BRANCHES.forEach(function(b){
     var d=cache[b];
-    if(d){txt+=b.padEnd(4)+'　藍 '+String(d.blue).padStart(2)+' 條　白 '+String(d.white).padStart(2)+' 條'+(d.note?'　('+d.note+')':'')+'\n';tb+=d.blue;tw+=d.white;rp++;}
+    if(d){txt+=b.padEnd(4)+'　藍 '+String(d.blue).padStart(2)+' 籃　白 '+String(d.white).padStart(2)+' 籃'+(d.note?'　('+d.note+')':'')+'\n';tb+=d.blue;tw+=d.white;rp++;}
     else{txt+=b.padEnd(4)+'　⚠️ 未回報\n';}
   });
-  txt+='━━━━━━━━━━━━━━━━\n合計　藍 '+tb+' 條　白 '+tw+' 條\n回報進度 '+rp+'/'+BRANCHES.length;
+  txt+='━━━━━━━━━━━━━━━━\n合計　藍 '+tb+' 籃　白 '+tw+' 籃\n回報進度 '+rp+'/'+BRANCHES.length;
   navigator.clipboard.writeText(txt).then(function(){
     var btn=document.getElementById('cpBtn');
     btn.textContent='✅ 已複製！';btn.classList.add('cpd');
