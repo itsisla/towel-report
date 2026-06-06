@@ -91,6 +91,8 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--tp);
 .abtn{background:var(--sf2);border:1px solid var(--bd);border-radius:10px;color:var(--ts);font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:.15s;}
 .abtn:hover{border-color:var(--blue);color:var(--tp);}
 .abtn.cpd{border-color:var(--green);color:var(--green);}
+.abtn.danger{color:var(--red);}
+.abtn.danger:hover{border-color:var(--red);background:rgba(255,92,92,.08);}
 .lr{font-size:11px;color:var(--td);font-family:'DM Mono',monospace;margin-left:auto;}
 .blist{display:flex;flex-direction:column;gap:8px;}
 .brow{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
@@ -205,6 +207,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--tp);
       <div class="ddisp" id="adminDate">--</div>
       <button class="abtn" onclick="loadAdmin()">🔄 更新</button>
       <button class="abtn" id="cpBtn" onclick="copyRpt()">📋 複製統計</button>
+      <button class="abtn danger" onclick="clearToday()">🗑️ 清除今日</button>
       <div class="lr" id="lr"></div>
     </div>
     <div class="sg">
@@ -223,7 +226,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--tp);
 // ═══════════════════════════════════════
 //  設定：把你的 Apps Script 部署網址貼這裡
 // ═══════════════════════════════════════
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx3xWKimXOEz3a72fBmEOUOnitQ5g_yq3RfP2EzBh_KH0rachNbxNrjLNzFMDqXNczS/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPGDMa4U9q2--Ziu4BzxTupsLd44Dgb2KlWq0IckAXhGcmTTVZq6c807gfNMNEDX0P/exec';
 
 var BRANCHES=['板橋','樹泰','中和','板漢','永和','微風','A9','行善','金莊','汐止一','汐止二','民生','蘭雅','天母','石牌','士林','通化一','通化二','安和','中山'];
 var DL_HOUR=19;
@@ -431,6 +434,26 @@ function copyRpt(){
 }
 
 // ─── toast ───
+async function clearToday(){
+  if(!confirm('確定要清除今日所有分店的回報資料嗎？')) return;
+  try{
+    var r=await fetch(SCRIPT_URL,{
+      method:'POST',
+      body:JSON.stringify({action:'clear'})
+    });
+    var j=await r.json();
+    if(j.ok){
+      cache={};
+      renderAdmin(cache);
+      toast('✅ 今日資料已清除');
+    } else {
+      toast('❌ 清除失敗，請重試',true);
+    }
+  }catch(e){
+    toast('❌ 清除失敗，請檢查網路',true);
+  }
+}
+
 function toast(msg,err){
   var t=document.getElementById('toast');
   t.textContent=msg;
