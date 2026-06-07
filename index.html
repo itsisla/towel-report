@@ -215,12 +215,15 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a;
 /* ══════════════════════════
    BRANCH VIEW (modal-style from home)
 ══════════════════════════ */
-#branch { background:#f0f2f5; max-width:640px; margin:0 auto; width:100%; }
+#branch { background:#f0f2f5; max-width:960px; margin:0 auto; width:100%; }
 .bb { padding:28px 24px; }
+@media(min-width:768px){ .bb { padding:36px 48px; } }
 .notice-bar { background:#fff3e0; border:2px solid #ff9800; border-radius:14px; padding:16px 20px; font-size:20px; font-weight:700; color:#e65100; text-align:center; margin-bottom:28px; }
 .sec-title { font-size:18px; font-weight:700; color:#333; margin-bottom:14px; }
-.branch-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:28px; }
-@media(min-width:480px){ .branch-grid { grid-template-columns:repeat(4,1fr); } }
+.branch-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:28px; }
+@media(min-width:480px){ .branch-grid { grid-template-columns:repeat(3,1fr); } }
+@media(min-width:768px){ .branch-grid { grid-template-columns:repeat(4,1fr); } }
+@media(min-width:960px){ .branch-grid { grid-template-columns:repeat(5,1fr); } }
 .bbtn { background:#fff; border:2px solid #ddd; border-radius:12px; font-family:'Noto Sans TC',sans-serif; font-size:18px; font-weight:700; color:#333; padding:16px 8px; cursor:pointer; transition:all 0.15s; text-align:center; -webkit-tap-highlight-color:transparent; box-shadow:0 1px 4px rgba(0,0,0,0.05); }
 .bbtn:active { transform:scale(0.95); }
 .bbtn.sel { background:#111111; border-color:#111111; color:#fff; }
@@ -228,6 +231,9 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a;
 .bbtn.sub::after { content:' ✓'; }
 
 .tform { display:none; }
+.tinputs-row { display:flex; flex-direction:column; gap:0; }
+@media(min-width:768px){ .tinputs-row { flex-direction:row; gap:16px; } 
+.tinputs-row .tc { flex:1; margin-bottom:0; } }
 .tform.vis { display:block; }
 .already-note { background:#e8f5e9; border:2px solid #4caf50; border-radius:14px; padding:16px 20px; font-size:17px; color:#2e7d32; font-weight:600; margin-bottom:20px; line-height:1.7; white-space:pre-line; }
 .tc { background:#fff; border:3px solid #e0e0e0; border-radius:18px; padding:24px 20px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
@@ -389,6 +395,7 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a;
     <div class="tform" id="towelForm">
       <div class="already-note" id="alreadyNote" style="display:none"></div>
       <div class="sec-title" id="formTitle">填寫數量</div>
+      <div class="tinputs-row">
       <div class="tc bl">
         <div class="th"><div class="tdot b"></div><div class="tname b">藍色毛巾</div></div>
         <div class="qr">
@@ -404,6 +411,7 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a;
           <div style="text-align:center"><div class="qnum" id="whiteNum">0</div><div class="qunit">籃</div></div>
           <button class="qbtn" onclick="chg('white',1)">＋</button>
         </div>
+      </div>
       </div>
       <div class="note-lbl">備註（選填）</div>
       <textarea class="note-inp" id="noteArea" placeholder="例如：需要加急…"></textarea>
