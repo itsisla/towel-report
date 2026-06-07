@@ -7,9 +7,8 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a; overflow:hidden; height:100vh; }
-html { overflow:hidden; height:100vh; scroll-behavior:auto; }
-.view { display:none; height:100vh; flex-direction:column; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; }
+body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a; min-height:100vh; }
+.view { display:none; min-height:100vh; flex-direction:column; }
 .view.active { display:flex; }
 
 /* WATERMARK */
@@ -497,13 +496,9 @@ function goTo(v) {
   document.querySelectorAll('.view').forEach(function(el){ el.classList.remove('active'); });
   var target = document.getElementById(v);
   target.classList.add('active');
-  // Force scroll reset on every platform
-  requestAnimationFrame(function(){
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-    window.scrollTo(0, 0);
-    target.scrollTop = 0;
-  });
+  window.scrollTo(0, 0);
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
   if (v === 'branch') initBranch();
   if (v === 'admin') { loadToday(); loadHistoryAll(); adminTimer = setInterval(loadToday, 30000); }
   else { clearInterval(adminTimer); }
