@@ -3,467 +3,586 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>春秋洗衣部 · 毛巾回報</title>
+<title>指舞春秋 · 毛巾部</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
-:root{--bg:#0f1117;--sf:#1a1d27;--sf2:#22263a;--bd:#2e3248;--blue:#4a9eff;--green:#3dd68c;--red:#ff5c5c;--yellow:#f5c842;--tp:#e8eaf0;--ts:#8b91a8;--td:#4a5068;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--tp);min-height:100vh;}
-.view{display:none;min-height:100vh;flex-direction:column;}
-.view.active{display:flex;}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans TC',sans-serif; background:#f5f5f5; color:#1a1a1a; min-height:100vh; }
+.view { display:none; min-height:100vh; flex-direction:column; }
+.view.active { display:flex; }
+
+/* watermark */
+.watermark {
+  position:fixed; bottom:10px; right:14px;
+  font-size:11px; color:rgba(0,0,0,0.18);
+  letter-spacing:0.5px; pointer-events:none; z-index:9999;
+  font-style:italic;
+}
 
 /* HOME */
-#home{align-items:center;justify-content:center;padding:40px 20px;}
-#home::before{content:'';position:fixed;top:-200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(74,158,255,.08) 0%,transparent 70%);pointer-events:none;}
-.home-header{text-align:center;margin-bottom:48px;}
-.home-title{font-size:clamp(26px,7vw,40px);font-weight:900;line-height:1.1;margin-bottom:8px;}
-.home-title span{color:var(--blue);}
-.home-sub{color:var(--ts);font-size:13px;letter-spacing:2.5px;text-transform:uppercase;}
-.home-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:460px;}
-.home-card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:26px 18px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent;}
-.home-card:active{transform:scale(.97);}
-.home-card:hover{border-color:var(--blue);background:var(--sf2);}
-.home-card.ac:hover{border-color:var(--green);}
-.card-icon{font-size:34px;}
-.card-label{font-size:15px;font-weight:700;}
-.card-desc{font-size:12px;color:var(--ts);text-align:center;line-height:1.5;}
+#home { align-items:center; justify-content:center; padding:40px 24px; background:#fff; }
+.company-logo { text-align:center; margin-bottom:40px; }
+.company-name { font-size:26px; font-weight:900; color:#1a1a1a; line-height:1.4; letter-spacing:1px; }
+.company-dept { display:inline-block; margin-top:10px; background:#1a73e8; color:#fff; font-size:18px; font-weight:700; padding:6px 20px; border-radius:30px; letter-spacing:2px; }
+.home-notice { background:#fff8e1; border:2px solid #f9a825; border-radius:16px; padding:18px 24px; text-align:center; font-size:22px; font-weight:700; color:#e65100; margin-bottom:40px; max-width:480px; width:100%; line-height:1.5; }
+.home-cards { display:flex; flex-direction:column; gap:20px; width:100%; max-width:480px; }
+.home-card { background:#fff; border:3px solid #e0e0e0; border-radius:20px; padding:28px 24px; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; gap:20px; -webkit-tap-highlight-color:transparent; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+.home-card:active { transform:scale(0.98); }
+.home-card.bc { border-color:#1a73e8; } .home-card.bc:hover { background:#e8f0fe; }
+.home-card.ac { border-color:#aaa; } .home-card.ac:hover { background:#f5f5f5; }
+.card-icon { font-size:48px; flex-shrink:0; }
+.card-title { font-size:22px; font-weight:900; margin-bottom:4px; }
+.card-desc { font-size:16px; color:#555; }
 
 /* SHARED HEADER */
-.ph{background:var(--sf);border-bottom:1px solid var(--bd);padding:16px 18px;position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:12px;}
-.back{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;color:var(--ts);font-size:18px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.15s;}
-.back:hover{color:var(--tp);border-color:var(--blue);}
-.ph-info{flex:1;}
-.ph-title{font-size:16px;font-weight:700;}
-.ph-sub{font-size:12px;color:var(--ts);margin-top:2px;}
-.dl-badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap;}
-.dl-badge.ok{background:var(--green);color:#0f1117;}
+.ph { background:#1a73e8; padding:18px 24px; display:flex; align-items:center; gap:16px; position:sticky; top:0; z-index:100; }
+.ph.wh { background:#fff; border-bottom:3px solid #e0e0e0; }
+.back { background:rgba(255,255,255,0.2); border:2px solid rgba(255,255,255,0.5); border-radius:12px; color:#fff; font-size:22px; width:48px; height:48px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
+.back.dk { background:#f0f0f0; border-color:#ccc; color:#333; }
+.ph-title { font-size:22px; font-weight:900; color:#fff; }
+.ph-title.dk { color:#1a1a1a; }
+.ph-sub { font-size:14px; color:rgba(255,255,255,0.85); margin-top:2px; }
+.ph-sub.dk { color:#777; }
 
-/* BRANCH */
-#branch{max-width:540px;margin:0 auto;width:100%;}
-.bb{padding:22px 18px;flex:1;}
-.sl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ts);margin-bottom:12px;}
-.bsel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:28px;}
-.bbtn{background:var(--sf);border:1px solid var(--bd);border-radius:10px;color:var(--ts);font-size:13px;font-weight:500;font-family:'Noto Sans TC',sans-serif;padding:10px 4px;cursor:pointer;transition:.15s;text-align:center;-webkit-tap-highlight-color:transparent;}
-.bbtn:active{transform:scale(.95);}
-.bbtn.sel{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;}
-.bbtn.sub{background:rgba(61,214,140,.12);border-color:var(--green);color:var(--green);}
+/* BRANCH VIEW */
+#branch { background:#f5f5f5; max-width:600px; margin:0 auto; width:100%; }
+.bb { padding:24px 20px; }
+.notice-bar { background:#fff3e0; border:2px solid #ff9800; border-radius:14px; padding:16px 20px; font-size:20px; font-weight:700; color:#e65100; text-align:center; margin-bottom:28px; }
+.sec-title { font-size:19px; font-weight:700; color:#333; margin-bottom:16px; }
+.branch-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:32px; }
+.bbtn { background:#fff; border:3px solid #ddd; border-radius:14px; font-family:'Noto Sans TC',sans-serif; font-size:20px; font-weight:700; color:#333; padding:18px 10px; cursor:pointer; transition:all 0.15s; text-align:center; -webkit-tap-highlight-color:transparent; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+.bbtn:active { transform:scale(0.96); }
+.bbtn.sel { background:#1a73e8; border-color:#1a73e8; color:#fff; }
+.bbtn.sub { background:#e8f5e9; border-color:#4caf50; color:#2e7d32; }
+.bbtn.sub::after { content:' ✓'; }
 
-.tsec{display:none;margin-bottom:28px;}
-.tsec.vis{display:block;}
+.tform { display:none; }
+.tform.vis { display:block; }
+.already-note { background:#e8f5e9; border:2px solid #4caf50; border-radius:14px; padding:16px 20px; font-size:18px; color:#2e7d32; font-weight:600; margin-bottom:20px; line-height:1.6; white-space:pre-line; }
+.tc { background:#fff; border:3px solid #e0e0e0; border-radius:18px; padding:24px 20px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+.tc.bl { border-color:#1a73e8; } .tc.wh { border-color:#bbb; }
+.th { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+.tdot { width:36px; height:36px; border-radius:50%; flex-shrink:0; }
+.tdot.b { background:#1a73e8; } .tdot.w { background:#e0e0e0; border:2px solid #bbb; }
+.tname { font-size:22px; font-weight:900; }
+.tname.b { color:#1a73e8; } .tname.w { color:#555; }
+.qr { display:flex; align-items:center; justify-content:center; gap:16px; }
+.qbtn { width:64px; height:64px; border-radius:14px; font-size:32px; cursor:pointer; display:flex; align-items:center; justify-content:center; border:3px solid #ddd; background:#f5f5f5; color:#333; -webkit-tap-highlight-color:transparent; touch-action:manipulation; user-select:none; transition:all 0.1s; }
+.qbtn:active { transform:scale(0.88); background:#e0e0e0; }
+.bl .qbtn { border-color:#1a73e8; color:#1a73e8; } .wh .qbtn { border-color:#888; color:#555; }
+.qnum { font-size:52px; font-weight:900; min-width:100px; text-align:center; line-height:1; }
+.bl .qnum { color:#1a73e8; } .wh .qnum { color:#555; }
+.qunit { font-size:20px; font-weight:700; color:#888; margin-top:4px; }
+.note-lbl { font-size:17px; color:#666; margin-bottom:10px; font-weight:500; }
+.note-inp { background:#fff; border:2px solid #ddd; border-radius:14px; padding:14px; width:100%; font-family:'Noto Sans TC',sans-serif; font-size:18px; color:#333; resize:none; height:76px; margin-bottom:20px; }
+.note-inp:focus { outline:none; border-color:#1a73e8; }
+.note-inp::placeholder { color:#bbb; }
+.subbtn { width:100%; background:#1a73e8; color:#fff; border:none; border-radius:16px; font-family:'Noto Sans TC',sans-serif; font-size:22px; font-weight:900; padding:20px; cursor:pointer; letter-spacing:2px; -webkit-tap-highlight-color:transparent; touch-action:manipulation; box-shadow:0 4px 12px rgba(26,115,232,0.3); transition:all 0.15s; }
+.subbtn:active { transform:scale(0.98); }
+.subbtn:disabled { background:#aaa; box-shadow:none; cursor:not-allowed; }
 
-.cur-val{background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.3);border-radius:12px;padding:13px 15px;margin-bottom:14px;font-size:13px;color:var(--ts);line-height:1.6;}
-.cur-val strong{color:var(--blue);}
+/* PASSWORD */
+#password { align-items:center; justify-content:center; padding:40px 24px; background:#f5f5f5; }
+.pwbox { background:#fff; border:3px solid #e0e0e0; border-radius:24px; padding:40px 32px; width:100%; max-width:420px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+.pwicon { font-size:56px; margin-bottom:16px; }
+.pwtitle { font-size:24px; font-weight:900; margin-bottom:6px; }
+.pwsub { font-size:17px; color:#777; margin-bottom:32px; }
+.pwinp { width:100%; background:#f5f5f5; border:3px solid #e0e0e0; border-radius:14px; font-family:'Noto Sans TC',sans-serif; font-size:28px; font-weight:700; text-align:center; padding:16px; color:#1a1a1a; letter-spacing:8px; margin-bottom:20px; -webkit-text-security:disc; }
+.pwinp:focus { outline:none; border-color:#1a73e8; }
+.pwbtn { width:100%; background:#1a73e8; color:#fff; border:none; border-radius:14px; font-family:'Noto Sans TC',sans-serif; font-size:20px; font-weight:700; padding:18px; cursor:pointer; }
+.pwerr { color:#d32f2f; font-size:17px; font-weight:600; margin-top:14px; display:none; }
 
-.tinputs{display:flex;flex-direction:column;gap:14px;}
-.trow{display:flex;align-items:center;gap:14px;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:15px 18px;}
-.cdot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
-.cdot.b{background:var(--blue);}
-.cdot.w{background:#d0d4e0;border:1px solid var(--bd);}
-.tlabel{flex:1;font-size:15px;font-weight:500;}
-.tlabel small{display:block;font-size:11px;color:var(--ts);margin-top:2px;}
-.qc{display:flex;align-items:center;gap:8px;}
-.qbtn{width:36px;height:36px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--tp);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.12s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;}
-.qbtn:active{transform:scale(.88);}
-.qinp{width:52px;text-align:center;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;color:var(--tp);font-family:'DM Mono',monospace;font-size:18px;font-weight:500;padding:6px 4px;-moz-appearance:textfield;}
-.qinp::-webkit-inner-spin-button,.qinp::-webkit-outer-spin-button{-webkit-appearance:none;}
-.qinp:focus{outline:none;border-color:var(--blue);}
-.noteinp{width:100%;background:var(--sf);border:1px solid var(--bd);border-radius:12px;color:var(--tp);font-family:'Noto Sans TC',sans-serif;font-size:14px;padding:12px 15px;resize:none;height:62px;margin-top:12px;}
-.noteinp:focus{outline:none;border-color:var(--blue);}
-.noteinp::placeholder{color:var(--td);}
-.subbtn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:14px;font-family:'Noto Sans TC',sans-serif;font-size:16px;font-weight:700;padding:15px;cursor:pointer;transition:.15s;margin-top:14px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
-.subbtn:active{transform:scale(.98);}
-.subbtn:disabled{background:var(--td);cursor:not-allowed;}
+/* ADMIN TABS */
+#admin { background:#f5f5f5; max-width:780px; margin:0 auto; width:100%; }
+.tabs { display:flex; background:#fff; border-bottom:3px solid #e0e0e0; }
+.tab { flex:1; padding:16px 8px; font-size:16px; font-weight:700; color:#999; text-align:center; cursor:pointer; border:none; background:none; font-family:'Noto Sans TC',sans-serif; border-bottom:3px solid transparent; margin-bottom:-3px; -webkit-tap-highlight-color:transparent; }
+.tab.active { color:#1a73e8; border-bottom-color:#1a73e8; }
 
-/* ADMIN */
-#admin{max-width:700px;margin:0 auto;width:100%;padding-bottom:40px;}
-.ab{padding:18px;}
-.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
-.sc{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:13px;text-align:center;}
-.sc .sn{font-family:'DM Mono',monospace;font-size:26px;font-weight:500;line-height:1;margin-bottom:4px;}
-.sc .slb{font-size:11px;color:var(--ts);letter-spacing:1px;}
-.sc.bl .sn{color:var(--blue);}
-.sc.wh .sn{color:#e8eaf0;}
-.sc.rp .sn{color:var(--green);}
-.pgbar-bg{background:var(--sf2);border-radius:4px;height:6px;overflow:hidden;margin-bottom:22px;}
-.pgbar-fill{height:100%;background:var(--green);border-radius:4px;transition:width .4s;}
-.aa{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
-.ddisp{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:9px 14px;font-family:'DM Mono',monospace;font-size:13px;color:var(--ts);}
-.abtn{background:var(--sf2);border:1px solid var(--bd);border-radius:10px;color:var(--ts);font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:.15s;}
-.abtn:hover{border-color:var(--blue);color:var(--tp);}
-.abtn.cpd{border-color:var(--green);color:var(--green);}
-.abtn.danger{color:var(--red);}
-.abtn.danger:hover{border-color:var(--red);background:rgba(255,92,92,.08);}
-.lr{font-size:11px;color:var(--td);font-family:'DM Mono',monospace;margin-left:auto;}
-.blist{display:flex;flex-direction:column;gap:8px;}
-.brow{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.brow.done{border-color:rgba(61,214,140,.3);background:rgba(61,214,140,.04);}
-.brow.od{border-color:rgba(255,92,92,.3);background:rgba(255,92,92,.04);}
-.brname{font-size:14px;font-weight:600;min-width:52px;flex-shrink:0;}
-.brdata{flex:1;display:flex;flex-direction:column;gap:4px;}
-.dchips{display:flex;gap:14px;}
-.dc{display:flex;align-items:center;gap:5px;font-size:13px;font-family:'DM Mono',monospace;}
-.dc .d{width:8px;height:8px;border-radius:50%;}
-.dc .d.b{background:var(--blue);}
-.dc .d.w{background:#c0c4d0;border:1px solid #666;}
-.brnote{font-size:11px;color:var(--ts);font-style:italic;}
-.brtime{font-size:11px;color:var(--td);font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0;}
-.brstatus{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
-.std{background:rgba(61,214,140,.15);color:var(--green);}
-.stw{background:rgba(139,145,168,.15);color:var(--ts);}
-.sto{background:rgba(255,92,92,.15);color:var(--red);}
+.tab-panel { display:none; padding:20px; }
+.tab-panel.active { display:block; }
+
+/* Summary */
+.sum-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+.sc { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:16px 10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.sn { font-size:34px; font-weight:900; line-height:1; margin-bottom:4px; }
+.sl { font-size:13px; color:#777; font-weight:600; }
+.sc.gr .sn { color:#2e7d32; } .sc.bl .sn { color:#1a73e8; } .sc.gy .sn { color:#555; }
+.pgwrap { margin-bottom:20px; }
+.pglbl { display:flex; justify-content:space-between; font-size:15px; font-weight:700; color:#444; margin-bottom:6px; }
+.pgbg { background:#e0e0e0; border-radius:8px; height:12px; overflow:hidden; }
+.pgfill { height:100%; background:#4caf50; border-radius:8px; transition:width 0.4s; }
+
+/* Action buttons */
+.acts { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
+.abtn { background:#fff; border:2px solid #ddd; border-radius:12px; font-family:'Noto Sans TC',sans-serif; font-size:15px; font-weight:700; padding:11px 16px; cursor:pointer; color:#333; transition:all 0.15s; -webkit-tap-highlight-color:transparent; }
+.abtn:hover { border-color:#1a73e8; color:#1a73e8; }
+.abtn.red { color:#c62828; } .abtn.red:hover { border-color:#c62828; background:#ffebee; }
+.abtn.cpd { border-color:#4caf50; color:#2e7d32; }
+.rfinfo { font-size:13px; color:#aaa; margin-left:auto; }
+
+/* Branch rows */
+.brows { display:flex; flex-direction:column; gap:10px; }
+.brow { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:16px 18px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.brow.done { border-color:#4caf50; background:#f1f8e9; }
+.brow.overdue { border-color:#ef9a9a; background:#fff5f5; }
+.bname { font-size:20px; font-weight:900; min-width:58px; }
+.bdata { flex:1; display:flex; flex-direction:column; gap:5px; }
+.bchips { display:flex; gap:12px; flex-wrap:wrap; }
+.bchip { display:flex; align-items:center; gap:7px; font-size:17px; font-weight:700; }
+.bdot { width:14px; height:14px; border-radius:50%; flex-shrink:0; }
+.bdot.b { background:#1a73e8; } .bdot.w { background:#bbb; border:2px solid #999; }
+.bnote { font-size:14px; color:#777; font-style:italic; }
+.btime { font-size:13px; color:#aaa; white-space:nowrap; flex-shrink:0; }
+.bstat { font-size:13px; font-weight:700; padding:4px 10px; border-radius:20px; white-space:nowrap; flex-shrink:0; }
+.st-done { background:#e8f5e9; color:#2e7d32; }
+.st-wait { background:#f5f5f5; color:#888; }
+.st-late { background:#ffebee; color:#c62828; }
+
+/* Delivery button */
+.del-btn { font-family:'Noto Sans TC',sans-serif; font-size:13px; font-weight:700; padding:8px 12px; border-radius:10px; cursor:pointer; border:2px solid #1a73e8; background:#e8f0fe; color:#1a73e8; white-space:nowrap; flex-shrink:0; transition:all 0.15s; -webkit-tap-highlight-color:transparent; }
+.del-btn.delivered { border-color:#4caf50; background:#e8f5e9; color:#2e7d32; cursor:default; }
+
+/* History tab */
+.hist-controls { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
+.date-select { background:#fff; border:2px solid #ddd; border-radius:12px; font-family:'Noto Sans TC',sans-serif; font-size:16px; font-weight:600; padding:10px 14px; color:#333; cursor:pointer; }
+.date-select:focus { outline:none; border-color:#1a73e8; }
+
+/* Chart */
+.chart-wrap { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:20px; margin-bottom:24px; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.chart-title { font-size:17px; font-weight:700; color:#333; margin-bottom:16px; }
+.chart-area { position:relative; height:200px; display:flex; align-items:flex-end; gap:4px; border-bottom:2px solid #e0e0e0; padding-bottom:0; overflow-x:auto; }
+.bar-group { display:flex; flex-direction:column; align-items:center; gap:3px; flex-shrink:0; min-width:32px; }
+.bar-stack { display:flex; flex-direction:column; justify-content:flex-end; width:22px; }
+.bar-seg { width:100%; border-radius:3px 3px 0 0; transition:height 0.3s; }
+.bar-seg.b { background:#1a73e8; }
+.bar-seg.w { background:#90a4ae; border-radius:0; }
+.bar-lbl { font-size:10px; color:#aaa; text-align:center; margin-top:4px; }
+.chart-legend { display:flex; gap:16px; margin-top:12px; }
+.leg { display:flex; align-items:center; gap:6px; font-size:13px; color:#555; font-weight:600; }
+.leg-dot { width:12px; height:12px; border-radius:3px; }
+.leg-dot.b { background:#1a73e8; } .leg-dot.w { background:#90a4ae; }
+
+/* History table */
+.hist-table { width:100%; border-collapse:collapse; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.hist-table th { background:#1a73e8; color:#fff; font-size:15px; font-weight:700; padding:14px 12px; text-align:center; }
+.hist-table td { font-size:15px; padding:12px; text-align:center; border-bottom:1px solid #f0f0f0; }
+.hist-table tr:last-child td { border-bottom:none; }
+.hist-table tr.total-row td { font-weight:900; background:#f5f5f5; border-top:2px solid #e0e0e0; }
+.hist-table td.b-val { color:#1a73e8; font-weight:700; }
+.hist-table td.w-val { color:#555; font-weight:700; }
+.del-tag { display:inline-block; background:#e8f5e9; color:#2e7d32; font-size:12px; font-weight:700; padding:2px 8px; border-radius:10px; }
 
 /* spinner */
-.sp{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px;}
-@keyframes sp{to{transform:rotate(360deg);}}
-
-/* config panel */
-.cfg-panel{background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.4);border-radius:14px;padding:18px;margin-bottom:22px;}
-.cfg-panel h3{font-size:14px;font-weight:700;color:var(--yellow);margin-bottom:12px;}
-.cfg-steps{display:flex;flex-direction:column;gap:10px;}
-.cfg-step{font-size:13px;color:var(--ts);line-height:1.7;}
-.cfg-step strong{color:var(--tp);}
-.cfg-step code{background:rgba(255,255,255,.08);padding:2px 7px;border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;color:var(--yellow);word-break:break-all;}
-.cfg-input-row{display:flex;gap:8px;margin-top:14px;}
-.cfg-input{flex:1;background:var(--sf2);border:1px solid var(--bd);border-radius:10px;color:var(--tp);font-family:'DM Mono',monospace;font-size:12px;padding:10px 13px;}
-.cfg-input:focus{outline:none;border-color:var(--blue);}
-.cfg-input::placeholder{color:var(--td);}
-.cfg-save{background:var(--yellow);color:#1a1400;border:none;border-radius:10px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:10px 16px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.sp { display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:8px; }
+@keyframes sp { to { transform:rotate(360deg); } }
 
 /* toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a2a1a;border:1px solid var(--green);color:var(--green);padding:11px 22px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:999;white-space:nowrap;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.toast.err{background:#2a1a1a;border-color:var(--red);color:var(--red);}
+.toast { position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#323232;color:#fff;padding:14px 28px;border-radius:14px;font-size:17px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:9999;white-space:nowrap; }
+.toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+.toast.ok { background:#2e7d32; } .toast.err { background:#c62828; }
+
+.empty-msg { text-align:center; font-size:17px; color:#aaa; padding:40px 0; }
 </style>
 </head>
 <body>
 
-<!-- HOME -->
+<!-- WATERMARK -->
+<div class="watermark">© Isla Tsai</div>
+
+<!-- ══════════ HOME ══════════ -->
 <div id="home" class="view active">
-  <div class="home-header">
-    <div class="home-title">春秋 <span>洗衣部</span><br>毛巾回報系統</div>
-    <div class="home-sub">Towel Management · Daily Report</div>
+  <div class="company-logo">
+    <div class="company-name">指舞春秋<br>足體養生會館</div>
+    <div class="company-dept">毛巾部</div>
   </div>
+  <div class="home-notice">⏰ 請務必於<br>晚上七點前完成填單</div>
   <div class="home-cards">
-    <div class="home-card" onclick="goTo('branch')">
-      <div class="card-icon">🏪</div>
-      <div class="card-label">分店回報</div>
-      <div class="card-desc">填寫今日藍色・白色毛巾需求籃數</div>
+    <div class="home-card bc" onclick="goTo('branch')">
+      <div class="card-icon">📋</div>
+      <div><div class="card-title">分店填單</div><div class="card-desc">填寫今日毛巾需求數量</div></div>
     </div>
-    <div class="home-card ac" onclick="goTo('admin')">
-      <div class="card-icon">📊</div>
-      <div class="card-label">管理後台</div>
-      <div class="card-desc">查看所有分店回報進度與總計</div>
+    <div class="home-card ac" onclick="goTo('password')">
+      <div class="card-icon">🔒</div>
+      <div><div class="card-title">管理後台</div><div class="card-desc">查看所有分店回報數量</div></div>
     </div>
   </div>
 </div>
 
-<!-- BRANCH -->
+<!-- ══════════ BRANCH ══════════ -->
 <div id="branch" class="view">
   <div class="ph">
     <div class="back" onclick="goTo('home')">←</div>
-    <div class="ph-info"><div class="ph-title">分店毛巾回報</div><div class="ph-sub">請於 19:00 前完成填寫</div></div>
-    <div class="dl-badge" id="dlBadge">--:--</div>
+    <div><div class="ph-title">分店毛巾填單</div><div class="ph-sub">請於晚上七點前完成</div></div>
   </div>
   <div class="bb">
-    <div class="sl">選擇分店</div>
-    <div class="bsel" id="bsel"></div>
-    <div class="tsec" id="tsec">
-      <div class="cur-val" id="curVal" style="display:none"></div>
-      <div class="sl" style="margin-bottom:14px">填寫需求數量</div>
-      <div class="tinputs">
-        <div class="trow">
-          <div class="cdot b"></div>
-          <div class="tlabel">藍色毛巾<small>Blue Towels</small></div>
-          <div class="qc">
-            <button class="qbtn" onclick="chg('blue',-1)">−</button>
-            <input class="qinp" type="number" id="blueQ" value="0" min="0" max="999">
-            <button class="qbtn" onclick="chg('blue',1)">+</button>
-          </div>
-        </div>
-        <div class="trow">
-          <div class="cdot w"></div>
-          <div class="tlabel">白色毛巾<small>White Towels</small></div>
-          <div class="qc">
-            <button class="qbtn" onclick="chg('white',-1)">−</button>
-            <input class="qinp" type="number" id="whiteQ" value="0" min="0" max="999">
-            <button class="qbtn" onclick="chg('white',1)">+</button>
-          </div>
+    <div class="notice-bar">⚠️ 請務必於晚上 7:00 前填單</div>
+    <div class="sec-title">第一步：選擇您的分店</div>
+    <div class="branch-grid" id="branchGrid"></div>
+    <div class="tform" id="towelForm">
+      <div class="already-note" id="alreadyNote" style="display:none"></div>
+      <div class="sec-title" id="formTitle">第二步：填寫數量</div>
+      <div class="tc bl">
+        <div class="th"><div class="tdot b"></div><div class="tname b">藍色毛巾</div></div>
+        <div class="qr">
+          <button class="qbtn" onclick="chg('blue',-1)">－</button>
+          <div style="text-align:center"><div class="qnum" id="blueNum">0</div><div class="qunit">籃</div></div>
+          <button class="qbtn" onclick="chg('blue',1)">＋</button>
         </div>
       </div>
-      <textarea class="noteinp" id="noteInp" placeholder="備註（選填）…"></textarea>
-      <button class="subbtn" id="subBtn" onclick="submitReport()" disabled>請先選擇分店</button>
+      <div class="tc wh">
+        <div class="th"><div class="tdot w"></div><div class="tname w">白色毛巾</div></div>
+        <div class="qr">
+          <button class="qbtn" onclick="chg('white',-1)">－</button>
+          <div style="text-align:center"><div class="qnum" id="whiteNum">0</div><div class="qunit">籃</div></div>
+          <button class="qbtn" onclick="chg('white',1)">＋</button>
+        </div>
+      </div>
+      <div class="note-lbl">備註（選填，有特殊需求再填）</div>
+      <textarea class="note-inp" id="noteArea" placeholder="例如：需要加急…"></textarea>
+      <button class="subbtn" id="submitBtn" onclick="submitReport()" disabled>請先選擇分店</button>
     </div>
   </div>
 </div>
 
-<!-- ADMIN -->
+<!-- ══════════ PASSWORD ══════════ -->
+<div id="password" class="view">
+  <div class="pwbox">
+    <div class="pwicon">🔐</div>
+    <div class="pwtitle">管理後台</div>
+    <div class="pwsub">請輸入管理密碼</div>
+    <input class="pwinp" type="password" id="pwInput" placeholder="••••" maxlength="10" inputmode="numeric" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pwbtn" onclick="checkPw()">確認進入</button>
+    <div class="pwerr" id="pwError">❌ 密碼錯誤，請再試一次</div>
+    <div style="margin-top:20px"><button style="background:none;border:none;font-size:16px;color:#aaa;cursor:pointer;" onclick="goTo('home')">← 返回首頁</button></div>
+  </div>
+</div>
+
+<!-- ══════════ ADMIN ══════════ -->
 <div id="admin" class="view">
   <div class="ph">
     <div class="back" onclick="goTo('home')">←</div>
-    <div class="ph-info"><div class="ph-title">管理後台</div><div class="ph-sub">即時回報總覽 · 每30秒自動更新</div></div>
+    <div><div class="ph-title">管理後台</div><div class="ph-sub">指舞春秋 毛巾部</div></div>
   </div>
-  <div class="ab">
-    <div class="aa">
-      <div class="ddisp" id="adminDate">--</div>
-      <button class="abtn" onclick="loadAdmin()">🔄 更新</button>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('today')">📊 今日回報</button>
+    <button class="tab" onclick="switchTab('history')">📅 歷史數據</button>
+  </div>
+
+  <!-- TODAY TAB -->
+  <div class="tab-panel active" id="tab-today">
+    <div class="sum-row">
+      <div class="sc gr"><div class="sn" id="sumR">—</div><div class="sl">已回報<br>（共20店）</div></div>
+      <div class="sc bl"><div class="sn" id="sumB">—</div><div class="sl">藍色總計<br>（籃）</div></div>
+      <div class="sc gy"><div class="sn" id="sumW">—</div><div class="sl">白色總計<br>（籃）</div></div>
+    </div>
+    <div class="pgwrap">
+      <div class="pglbl"><span>回報進度</span><span id="pctTxt">0%</span></div>
+      <div class="pgbg"><div class="pgfill" id="pctBar" style="width:0%"></div></div>
+    </div>
+    <div class="acts">
+      <button class="abtn" onclick="loadToday()">🔄 重新整理</button>
       <button class="abtn" id="cpBtn" onclick="copyRpt()">📋 複製統計</button>
-      <button class="abtn danger" onclick="clearToday()">🗑️ 清除今日</button>
-      <div class="lr" id="lr"></div>
+      <button class="abtn red" onclick="clearAll()">🗑️ 清除今日</button>
+      <div class="rfinfo" id="rfInfo"></div>
     </div>
-    <div class="sg">
-      <div class="sc rp"><div class="sn" id="sumR">—</div><div class="slb">已回報 / 20</div></div>
-      <div class="sc bl"><div class="sn" id="sumB">—</div><div class="slb">藍色 總計（籃）</div></div>
-      <div class="sc wh"><div class="sn" id="sumW">—</div><div class="slb">白色 總計（籃）</div></div>
+    <div class="brows" id="branchRows">
+      <div class="empty-msg">載入中…</div>
     </div>
-    <div class="pgbar-bg"><div class="pgbar-fill" id="pgfill" style="width:0%"></div></div>
-    <div class="blist" id="blist"><div style="text-align:center;color:var(--td);padding:40px 0;font-size:14px;">載入中…</div></div>
+  </div>
+
+  <!-- HISTORY TAB -->
+  <div class="tab-panel" id="tab-history">
+    <div class="hist-controls">
+      <select class="date-select" id="dateSelect" onchange="loadHistory()">
+        <option value="">— 選擇日期 —</option>
+      </select>
+      <button class="abtn" onclick="loadHistory()">🔄 更新</button>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">📈 過去30天每日總量</div>
+      <div class="chart-area" id="chartArea"><div class="empty-msg">載入中…</div></div>
+      <div class="chart-legend">
+        <div class="leg"><div class="leg-dot b"></div>藍色毛巾</div>
+        <div class="leg"><div class="leg-dot w"></div>白色毛巾</div>
+      </div>
+    </div>
+    <div id="histTable"><div class="empty-msg">請選擇日期查看詳細資料</div></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════
-//  設定：把你的 Apps Script 部署網址貼這裡
-// ═══════════════════════════════════════
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPGDMa4U9q2--Ziu4BzxTupsLd44Dgb2KlWq0IckAXhGcmTTVZq6c807gfNMNEDX0P/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9AqX06WfcvNK6hbNF8Ekv3S65IYb5vi7ah-UqBjE5hnnG0KMdbEXDtQrtMxpKd8KH/exec';
+var ADMIN_PW = '2018';
+var BRANCHES = ['板橋','樹泰','中和','板漢','永和','微風','A9','行善','金莊','汐止一','汐止二','民生','蘭雅','天母','石牌','士林','通化一','通化二','安和','中山'];
 
-var BRANCHES=['板橋','樹泰','中和','板漢','永和','微風','A9','行善','金莊','汐止一','汐止二','民生','蘭雅','天母','石牌','士林','通化一','通化二','安和','中山'];
-var DL_HOUR=19;
-var cache={};
-var selBranch=null;
-var adminTimer=null;
+var cache = {}, historyCache = {};
+var selBranch = null, blueVal = 0, whiteVal = 0;
+var adminTimer = null, activeTab = 'today';
 
-function nowT(){return new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});}
+// ── routing ──
+function goTo(v) {
+  document.querySelectorAll('.view').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById(v).classList.add('active');
+  window.scrollTo(0,0);
+  if (v === 'branch') initBranch();
+  if (v === 'admin') { loadToday(); loadHistoryChart(); adminTimer = setInterval(loadToday, 30000); }
+  else { clearInterval(adminTimer); }
+  if (v === 'password') { document.getElementById('pwInput').value=''; document.getElementById('pwError').style.display='none'; }
+}
 
-// Google Sheets sometimes converts time strings to date serial numbers
-// safeTime extracts only HH:MM from whatever format comes back
-function safeTime(t){
-  if(!t) return '';
-  var s=String(t);
-  // if it's already HH:MM format
-  var m=s.match(/(\d{1,2}:\d{2})/);
-  if(m) return m[1];
-  // if it's a full date string, extract time portion
-  try{
-    var d=new Date(s);
-    if(!isNaN(d.getTime())) return d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
-  }catch(e){}
+function switchTab(t) {
+  activeTab = t;
+  document.querySelectorAll('.tab').forEach(function(el,i){ el.classList.toggle('active', (i===0&&t==='today')||(i===1&&t==='history')); });
+  document.querySelectorAll('.tab-panel').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('tab-'+t).classList.add('active');
+  if (t === 'history') { populateDateSelect(); loadHistoryChart(); }
+}
+
+// ── password ──
+function checkPw() {
+  if (document.getElementById('pwInput').value.trim() === ADMIN_PW) {
+    document.getElementById('pwError').style.display='none';
+    goTo('admin');
+  } else {
+    document.getElementById('pwError').style.display='block';
+    document.getElementById('pwInput').value='';
+  }
+}
+
+// ── time helpers ──
+function nowT() { return new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}); }
+function todayKey() {
+  var d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function safeTime(t) {
+  if (!t) return '';
+  var s=String(t), m=s.match(/(\d{1,2}:\d{2})/);
+  if (m) return m[1];
+  try { var d=new Date(s); if(!isNaN(d.getTime())) return d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}); } catch(e){}
   return s;
 }
 
-// ─── view ───
-function goTo(v){
-  document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
-  document.getElementById(v).classList.add('active');
-  window.scrollTo(0,0);
-  if(v==='branch') initBranch();
-  if(v==='admin'){loadAdmin();adminTimer=setInterval(loadAdmin,30000);}
-  else{clearInterval(adminTimer);}
-}
-
-// ─── api ───
-function configured(){return SCRIPT_URL && SCRIPT_URL.indexOf('https://')===0;}
-
-async function apiGet(){
-  if(!configured()) return JSON.parse(localStorage.getItem('demo')||'{}');
-  var r=await fetch(SCRIPT_URL+'?action=get&t='+Date.now());
-  var j=await r.json();
-  return j.data||{};
-}
-
-async function apiSet(branch,blue,white,note){
-  if(!configured()){
-    var d=JSON.parse(localStorage.getItem('demo')||'{}');
-    d[branch]={blue:blue,white:white,note:note,time:nowT()};
-    localStorage.setItem('demo',JSON.stringify(d));
-    return {ok:true};
+// ── api ──
+async function api(params) {
+  if (params.method === 'GET') {
+    var r = await fetch(SCRIPT_URL + '?t=' + Date.now() + '&' + new URLSearchParams(params.query));
+    return await r.json();
+  } else {
+    var r = await fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify(params.body) });
+    return await r.json();
   }
-  var r=await fetch(SCRIPT_URL,{
-    method:'POST',
-    body:JSON.stringify({action:'set',branch:branch,blue:blue,white:white,note:note,time:nowT()})
-  });
-  return await r.json();
 }
 
-// ─── deadline ───
-function updateBadge(){
-  var el=document.getElementById('dlBadge');
-  if(!el) return;
-  var now=new Date(), dl=new Date();
-  dl.setHours(DL_HOUR,0,0,0);
-  var diff=dl-now;
-  if(diff<=0){el.textContent='已截止';el.classList.remove('ok');return;}
-  var h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000);
-  el.textContent=h>0?('剩 '+h+'h '+m+'m'):('剩 '+m+'m');
-  el.classList.toggle('ok',diff>7200000);
-}
-
-// ─── branch view ───
-async function initBranch(){
-  selBranch=null;
-  updateBadge();
-  try{ cache=await apiGet(); }catch(e){ cache=JSON.parse(localStorage.getItem('demo')||'{}'); }
-
-  var sel=document.getElementById('bsel');
-  sel.innerHTML='';
+// ── branch ──
+async function initBranch() {
+  selBranch=null; blueVal=0; whiteVal=0;
+  document.getElementById('blueNum').textContent='0';
+  document.getElementById('whiteNum').textContent='0';
+  try { cache = (await api({method:'GET',query:{action:'get'}})).data || {}; } catch(e){ cache={}; }
+  var grid=document.getElementById('branchGrid');
+  grid.innerHTML='';
   BRANCHES.forEach(function(b){
     var btn=document.createElement('button');
     btn.className='bbtn'+(cache[b]?' sub':'');
     btn.textContent=b;
-    btn.onclick=function(){selBranch=b;renderBranchForm();}; 
-    sel.appendChild(btn);
+    btn.onclick=function(){ selBranch=b; renderForm(); };
+    grid.appendChild(btn);
   });
-  document.getElementById('tsec').classList.remove('vis');
+  document.getElementById('towelForm').classList.remove('vis');
 }
 
-function renderBranchForm(){
-  if(!selBranch) return;
-  document.querySelectorAll('.bbtn').forEach(function(b){
-    b.classList.toggle('sel',b.textContent===selBranch);
-  });
-  var tsec=document.getElementById('tsec');
-  tsec.classList.add('vis');
-  var d=cache[selBranch];
-  var cv=document.getElementById('curVal');
-  var sb=document.getElementById('subBtn');
-  if(d){
-    cv.style.display='block';
-    cv.innerHTML='目前已回報：<strong>藍色 '+d.blue+' 籃、白色 '+d.white+' 籃</strong>（'+d.time+'）<br><small style="color:var(--td)">可修改後重新送出更新</small>';
-    document.getElementById('blueQ').value=d.blue;
-    document.getElementById('whiteQ').value=d.white;
-    document.getElementById('noteInp').value=d.note||'';
-    sb.disabled=false;
-    sb.textContent='更新 '+selBranch+' 的數量';
-    sb.style.background='var(--yellow)';
-    sb.style.color='#1a1400';
+function renderForm() {
+  document.querySelectorAll('.bbtn').forEach(function(b){ b.classList.toggle('sel', b.textContent.replace(' ✓','')===selBranch); });
+  var form=document.getElementById('towelForm'); form.classList.add('vis');
+  var d=cache[selBranch], note=document.getElementById('alreadyNote'), sb=document.getElementById('submitBtn');
+  if (d) {
+    note.style.display='block';
+    note.textContent='✅ 已回報：藍色 '+d.blue+' 籃、白色 '+d.white+' 籃（'+safeTime(d.time)+'）\n可修改後重新送出';
+    blueVal=Number(d.blue)||0; whiteVal=Number(d.white)||0;
+    document.getElementById('noteArea').value=d.note||'';
+    document.getElementById('formTitle').textContent='修改數量';
+    sb.textContent='更新 '+selBranch+' 的數量'; sb.style.background='#f57c00';
   } else {
-    cv.style.display='none';
-    document.getElementById('blueQ').value=0;
-    document.getElementById('whiteQ').value=0;
-    document.getElementById('noteInp').value='';
-    sb.disabled=false;
-    sb.textContent='確認送出 · '+selBranch;
-    sb.style.background='';
-    sb.style.color='';
+    note.style.display='none'; blueVal=0; whiteVal=0;
+    document.getElementById('noteArea').value='';
+    document.getElementById('formTitle').textContent='第二步：填寫數量';
+    sb.textContent='✔ 確認送出 · '+selBranch; sb.style.background='';
   }
-  tsec.scrollIntoView({behavior:'smooth',block:'nearest'});
+  document.getElementById('blueNum').textContent=blueVal;
+  document.getElementById('whiteNum').textContent=whiteVal;
+  sb.disabled=false;
+  form.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function chg(c,d){
-  var inp=document.getElementById(c==='blue'?'blueQ':'whiteQ');
-  inp.value=Math.max(0,Math.min(999,(parseInt(inp.value)||0)+d));
+function chg(c,d) {
+  if (c==='blue') { blueVal=Math.max(0,Math.min(999,blueVal+d)); document.getElementById('blueNum').textContent=blueVal; }
+  else { whiteVal=Math.max(0,Math.min(999,whiteVal+d)); document.getElementById('whiteNum').textContent=whiteVal; }
 }
 
-async function submitReport(){
-  if(!selBranch) return;
-  var blue=parseInt(document.getElementById('blueQ').value)||0;
-  var white=parseInt(document.getElementById('whiteQ').value)||0;
-  var note=document.getElementById('noteInp').value.trim();
-  var sb=document.getElementById('subBtn');
-  sb.disabled=true;
-  sb.innerHTML='<span class="sp"></span>送出中…';
-  try{
-    await apiSet(selBranch,blue,white,note);
-    cache[selBranch]={blue:blue,white:white,note:note,time:nowT()};
-    document.querySelectorAll('.bbtn').forEach(function(b){
-      if(b.textContent===selBranch){b.classList.add('sub');b.classList.remove('sel');}
-    });
-    toast('✅ '+selBranch+' 回報成功！');
-    selBranch=null;
-    document.getElementById('tsec').classList.remove('vis');
-  }catch(e){
-    toast('❌ 送出失敗，請檢查網路',true);
-    sb.disabled=false;
-    sb.textContent='重試';
+async function submitReport() {
+  if (!selBranch) return;
+  var note=document.getElementById('noteArea').value.trim();
+  var sb=document.getElementById('submitBtn');
+  sb.disabled=true; sb.innerHTML='<span class="sp"></span>送出中…';
+  try {
+    await api({method:'POST',body:{action:'set',branch:selBranch,blue:blueVal,white:whiteVal,note:note,time:nowT(),date:todayKey()}});
+    cache[selBranch]={blue:blueVal,white:whiteVal,note:note,time:nowT()};
+    document.querySelectorAll('.bbtn').forEach(function(b){ if(b.textContent.replace(' ✓','')===selBranch){b.classList.add('sub');b.classList.remove('sel');} });
+    toast('✅ '+selBranch+' 送出成功！','ok');
+    selBranch=null; document.getElementById('towelForm').classList.remove('vis');
+  } catch(e) {
+    toast('❌ 送出失敗，請檢查網路','err');
+    sb.disabled=false; sb.textContent='重試';
   }
 }
 
-// ─── admin ───
-async function loadAdmin(){
-  try{
-    cache=await apiGet();
-    renderAdmin(cache);
-    document.getElementById('lr').textContent='更新於 '+nowT();
-  }catch(e){toast('載入失敗',true);}
+// ── admin today ──
+async function loadToday() {
+  try {
+    cache = (await api({method:'GET',query:{action:'get'}})).data || {};
+    renderToday(cache);
+    document.getElementById('rfInfo').textContent='更新於 '+nowT();
+  } catch(e){ toast('載入失敗','err'); }
 }
 
-function renderAdmin(data){
-  var now=new Date(), dl=new Date();
-  dl.setHours(DL_HOUR,0,0,0);
-  var past=now>dl;
+function renderToday(data) {
+  var now=new Date(), dl=new Date(); dl.setHours(19,0,0,0); var past=now>dl;
   var tb=0,tw=0,rp=0;
-  BRANCHES.forEach(function(b){if(data[b]){tb+=data[b].blue;tw+=data[b].white;rp++;}});
+  BRANCHES.forEach(function(b){ if(data[b]){tb+=Number(data[b].blue)||0;tw+=Number(data[b].white)||0;rp++;} });
   document.getElementById('sumR').textContent=rp;
   document.getElementById('sumB').textContent=tb;
   document.getElementById('sumW').textContent=tw;
   var pct=Math.round(rp/BRANCHES.length*100);
-  document.getElementById('pgfill').style.width=pct+'%';
-  document.getElementById('adminDate').textContent=now.toLocaleDateString('zh-TW',{month:'long',day:'numeric',weekday:'short'});
-  var list=document.getElementById('blist');
-  list.innerHTML='';
+  document.getElementById('pctTxt').textContent=pct+'%';
+  document.getElementById('pctBar').style.width=pct+'%';
+  var rows=document.getElementById('branchRows'); rows.innerHTML='';
   BRANCHES.forEach(function(b){
-    var d=data[b];
-    var row=document.createElement('div');
-    row.className='brow'+(d?' done':(past?' od':''));
-    if(d){
-      row.innerHTML='<div class="brname">'+b+'</div><div class="brdata"><div class="dchips"><div class="dc"><div class="d b"></div>'+d.blue+' 籃</div><div class="dc"><div class="d w"></div>'+d.white+' 籃</div></div>'+(d.note?'<div class="brnote">💬 '+d.note+'</div>':'')+'</div><div class="brtime">'+safeTime(d.time)+'</div><div class="brstatus std">已回報</div>';
+    var d=data[b], row=document.createElement('div');
+    row.className='brow'+(d?' done':(past?' overdue':''));
+    if (d) {
+      var delBtn = d.delivered
+        ? '<div class="del-btn delivered">✓ 已送達 '+safeTime(d.deliveredTime)+'</div>'
+        : '<button class="del-btn" onclick="markDelivered(\''+b+'\')">📦 標記送達</button>';
+      row.innerHTML='<div class="bname">'+b+'</div><div class="bdata"><div class="bchips"><div class="bchip"><div class="bdot b"></div><span style="color:#1a73e8">藍 '+d.blue+' 籃</span></div><div class="bchip"><div class="bdot w"></div><span style="color:#555">白 '+d.white+' 籃</span></div></div>'+(d.note?'<div class="bnote">💬 '+d.note+'</div>':'')+'</div><div class="btime">'+safeTime(d.time)+'</div>'+delBtn+'<div class="bstat st-done">已回報 ✓</div>';
     } else {
-      row.innerHTML='<div class="brname">'+b+'</div><div class="brdata"><div style="font-size:13px;color:var(--td)">尚未回報</div></div><div class="brstatus '+(past?'sto':'stw')+'">'+(past?'逾時':'待回報')+'</div>';
+      row.innerHTML='<div class="bname">'+b+'</div><div class="bdata"><div style="font-size:17px;color:#aaa">尚未回報</div></div><div class="bstat '+(past?'st-late':'st-wait')+'">'+(past?'⚠️ 逾時':'待回報')+'</div>';
     }
-    list.appendChild(row);
+    rows.appendChild(row);
   });
 }
 
-function copyRpt(){
-  var now=new Date();
-  var today=now.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric'});
-  var txt='📋 春秋洗衣部 毛巾回報 '+today+'\n━━━━━━━━━━━━━━━━\n';
+async function markDelivered(branch) {
+  var t = nowT();
+  try {
+    await api({method:'POST',body:{action:'deliver',branch:branch,time:t,date:todayKey()}});
+    if (cache[branch]) { cache[branch].delivered=true; cache[branch].deliveredTime=t; }
+    renderToday(cache);
+    toast('✅ '+branch+' 已標記送達','ok');
+  } catch(e){ toast('❌ 操作失敗','err'); }
+}
+
+async function clearAll() {
+  if (!confirm('確定要清除今日所有分店資料嗎？')) return;
+  try {
+    await api({method:'POST',body:{action:'clear',date:todayKey()}});
+    cache={}; renderToday(cache);
+    toast('✅ 今日資料已清除','ok');
+  } catch(e){ toast('❌ 清除失敗','err'); }
+}
+
+function copyRpt() {
+  var now=new Date(), today=now.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric'});
+  var txt='📋 指舞春秋 毛巾部 回報 '+today+'\n━━━━━━━━━━━━━━━━\n';
   var tb=0,tw=0,rp=0;
   BRANCHES.forEach(function(b){
     var d=cache[b];
-    if(d){txt+=b.padEnd(4)+'　藍 '+String(d.blue).padStart(2)+' 籃　白 '+String(d.white).padStart(2)+' 籃'+(d.note?'　('+d.note+')':'')+'\n';tb+=d.blue;tw+=d.white;rp++;}
-    else{txt+=b.padEnd(4)+'　⚠️ 未回報\n';}
+    if(d){txt+=b+'　藍 '+d.blue+' 籃　白 '+d.white+' 籃'+(d.note?'（'+d.note+'）':'')+(d.delivered?' 📦已送達':'')+'\n';tb+=Number(d.blue)||0;tw+=Number(d.white)||0;rp++;}
+    else{txt+=b+'　⚠️ 未回報\n';}
   });
   txt+='━━━━━━━━━━━━━━━━\n合計　藍 '+tb+' 籃　白 '+tw+' 籃\n回報進度 '+rp+'/'+BRANCHES.length;
   navigator.clipboard.writeText(txt).then(function(){
-    var btn=document.getElementById('cpBtn');
-    btn.textContent='✅ 已複製！';btn.classList.add('cpd');
+    var btn=document.getElementById('cpBtn'); btn.textContent='✅ 已複製！'; btn.classList.add('cpd');
     setTimeout(function(){btn.textContent='📋 複製統計';btn.classList.remove('cpd');},2000);
-  }).catch(function(){toast('複製失敗',true);});
+  }).catch(function(){toast('複製失敗','err');});
 }
 
-// ─── toast ───
-async function clearToday(){
-  if(!confirm('確定要清除今日所有分店的回報資料嗎？')) return;
-  try{
-    var r=await fetch(SCRIPT_URL,{
-      method:'POST',
-      body:JSON.stringify({action:'clear'})
-    });
-    var j=await r.json();
-    if(j.ok){
-      cache={};
-      renderAdmin(cache);
-      toast('✅ 今日資料已清除');
+// ── history ──
+async function loadHistoryChart() {
+  try {
+    var res = await api({method:'GET',query:{action:'history'}});
+    historyCache = res.history || {};
+    renderChart(historyCache);
+    populateDateSelect();
+  } catch(e){ console.log('history load fail',e); }
+}
+
+function populateDateSelect() {
+  var sel=document.getElementById('dateSelect');
+  var cur=sel.value;
+  sel.innerHTML='<option value="">— 選擇日期 —</option>';
+  var keys=Object.keys(historyCache).sort().reverse();
+  keys.forEach(function(k){
+    var opt=document.createElement('option');
+    opt.value=k; opt.textContent=k;
+    sel.appendChild(opt);
+  });
+  if (cur && historyCache[cur]) sel.value=cur;
+}
+
+function renderChart(data) {
+  var area=document.getElementById('chartArea');
+  area.innerHTML='';
+  var keys=Object.keys(data).sort().slice(-30);
+  if (!keys.length){ area.innerHTML='<div class="empty-msg">暫無歷史數據</div>'; return; }
+  var maxVal=1;
+  keys.forEach(function(k){
+    var d=data[k], tb=0, tw=0;
+    if(d.branches){ Object.values(d.branches).forEach(function(b){tb+=Number(b.blue)||0;tw+=Number(b.white)||0;}); }
+    if(tb+tw>maxVal) maxVal=tb+tw;
+  });
+  var H=170;
+  keys.forEach(function(k){
+    var d=data[k], tb=0, tw=0;
+    if(d.branches){ Object.values(d.branches).forEach(function(b){tb+=Number(b.blue)||0;tw+=Number(b.white)||0;}); }
+    var bh=Math.round((tb/maxVal)*H), wh=Math.round((tw/maxVal)*H);
+    var lbl=k.slice(5);
+    var g=document.createElement('div'); g.className='bar-group';
+    g.innerHTML='<div class="bar-stack" style="height:'+H+'px"><div class="bar-seg b" style="height:'+bh+'px;margin-top:auto"></div><div class="bar-seg w" style="height:'+wh+'px"></div></div><div class="bar-lbl">'+lbl+'</div>';
+    area.appendChild(g);
+  });
+}
+
+function loadHistory() {
+  var date=document.getElementById('dateSelect').value;
+  var container=document.getElementById('histTable');
+  if (!date){ container.innerHTML='<div class="empty-msg">請選擇日期查看詳細資料</div>'; return; }
+  var data=historyCache[date];
+  if (!data){ container.innerHTML='<div class="empty-msg">此日期無資料</div>'; return; }
+  var branches=data.branches||{};
+  var tb=0, tw=0;
+  var rows='';
+  BRANCHES.forEach(function(b){
+    var d=branches[b];
+    if(d){
+      tb+=Number(d.blue)||0; tw+=Number(d.white)||0;
+      rows+='<tr><td style="font-weight:700;text-align:left;padding-left:16px">'+b+'</td><td class="b-val">'+d.blue+' 籃</td><td class="w-val">'+d.white+' 籃</td><td>'+(d.note||'—')+'</td><td>'+safeTime(d.time)+'</td><td>'+(d.delivered?'<span class="del-tag">✓ '+safeTime(d.deliveredTime)+'</span>':'—')+'</td></tr>';
     } else {
-      toast('❌ 清除失敗，請重試',true);
+      rows+='<tr><td style="font-weight:700;text-align:left;padding-left:16px;color:#aaa">'+b+'</td><td colspan="5" style="color:#ccc">未回報</td></tr>';
     }
-  }catch(e){
-    toast('❌ 清除失敗，請檢查網路',true);
-  }
+  });
+  container.innerHTML='<table class="hist-table"><thead><tr><th>分店</th><th>藍色</th><th>白色</th><th>備註</th><th>填單時間</th><th>送達時間</th></tr></thead><tbody>'+rows+'<tr class="total-row"><td style="text-align:left;padding-left:16px">合計</td><td class="b-val">'+tb+' 籃</td><td class="w-val">'+tw+' 籃</td><td colspan="3"></td></tr></tbody></table>';
 }
 
-function toast(msg,err){
+// ── toast ──
+function toast(msg,type){
   var t=document.getElementById('toast');
-  t.textContent=msg;
-  t.className='toast'+(err?' err':'');
+  t.textContent=msg; t.className='toast'+(type?' '+type:'');
   t.classList.add('show');
   setTimeout(function(){t.classList.remove('show');},2800);
 }
-
-updateBadge();
-setInterval(updateBadge,60000);
 </script>
 </body>
 </html>
