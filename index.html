@@ -7,8 +7,9 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a; min-height:100vh; }
-.view { display:none; min-height:100vh; flex-direction:column; }
+body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a; overflow:hidden; height:100vh; }
+html { overflow:hidden; height:100vh; scroll-behavior:auto; }
+.view { display:none; height:100vh; flex-direction:column; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; }
 .view.active { display:flex; }
 
 /* WATERMARK */
@@ -416,7 +417,7 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a;
       </div>
       </div>
       <div class="note-lbl">備註（選填）</div>
-      <textarea class="note-inp" id="noteArea" placeholder="例如：需要加急…"></textarea>
+      <textarea class="note-inp" id="noteArea" placeholder="例如：今日消毒、收大毛⋯"></textarea>
       <button class="subbtn" id="submitBtn" onclick="submitReport()" disabled>請先選擇分店</button>
     </div>
   </div>
@@ -494,10 +495,15 @@ var adminTimer = null;
 // ── routing ──
 function goTo(v) {
   document.querySelectorAll('.view').forEach(function(el){ el.classList.remove('active'); });
-  document.getElementById(v).classList.add('active');
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-  window.scrollTo({top:0, left:0, behavior:'instant'});
+  var target = document.getElementById(v);
+  target.classList.add('active');
+  // Force scroll reset on every platform
+  requestAnimationFrame(function(){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    window.scrollTo(0, 0);
+    target.scrollTop = 0;
+  });
   if (v === 'branch') initBranch();
   if (v === 'admin') { loadToday(); loadHistoryAll(); adminTimer = setInterval(loadToday, 30000); }
   else { clearInterval(adminTimer); }
