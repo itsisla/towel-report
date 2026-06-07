@@ -642,14 +642,14 @@ function renderToday(data) {
   var rows=document.getElementById('branchRows'); rows.innerHTML='';
   BRANCHES.forEach(function(b){
     var d=data[b], row=document.createElement('div');
-    row.className='brow'+(d?' done':(past?' overdue':''));
+    row.className='brow'+(d?' done':'');
     if (d) {
       var delBtn=d.delivered
         ?'<div class="del-btn delivered">✓ 已送達 '+safeTime(d.deliveredTime)+'</div>'
         :'<button class="del-btn" onclick="markDelivered(\''+b+'\')">📦 標記送達</button>';
       row.innerHTML='<div class="bname">'+b+'</div><div class="bdata"><div class="bchips"><div class="bchip"><div class="bdot b"></div><span style="color:#1565c0">藍 '+d.blue+' 籃</span></div><div class="bchip"><div class="bdot w"></div><span style="color:#555">白 '+d.white+' 籃</span></div></div>'+(d.note?'<div class="bnote">💬 '+d.note+'</div>':'')+'</div><div class="btime">'+safeTime(d.time)+'</div>'+delBtn+'<div class="bstat st-done">已回報 ✓</div>';
     } else {
-      row.innerHTML='<div class="bname">'+b+'</div><div class="bdata"><div style="font-size:17px;color:#aaa">尚未回報</div></div><div class="bstat '+(past?'st-late':'st-wait')+'">'+(past?'⚠️ 逾時':'待回報')+'</div>';
+      row.innerHTML='<div class="bname">'+b+'</div><div class="bdata"><div style="font-size:17px;color:#aaa">尚未回報</div></div><div class="bstat st-wait">待回報</div>';
     }
     rows.appendChild(row);
   });
