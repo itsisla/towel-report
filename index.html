@@ -495,7 +495,9 @@ var adminTimer = null;
 function goTo(v) {
   document.querySelectorAll('.view').forEach(function(el){ el.classList.remove('active'); });
   document.getElementById(v).classList.add('active');
-  window.scrollTo(0,0);
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  window.scrollTo({top:0, left:0, behavior:'instant'});
   if (v === 'branch') initBranch();
   if (v === 'admin') { loadToday(); loadHistoryAll(); adminTimer = setInterval(loadToday, 30000); }
   else { clearInterval(adminTimer); }
