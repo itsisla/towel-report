@@ -151,6 +151,25 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a;
   margin-bottom: 40px;
   text-align: center;
 }
+.branch-entry-btn {
+  background: #111111;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  padding: 24px 64px;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  letter-spacing: 2px;
+  -webkit-tap-highlight-color: transparent;
+  margin-top: 16px;
+}
+.branch-entry-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.35); background: #333; }
+.branch-entry-btn:active { transform: scale(0.97); }
+
 .admin-entry-btn {
   background: #111111;
   color: #fff;
@@ -343,9 +362,9 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a;
     <!-- Left: Branch -->
     <div class="home-left">
       <div class="home-left-title">Branch Order</div>
-      <div class="home-left-heading">📋 分店填單</div>
-      <div class="home-left-desc">請點選您的分店，填寫今日毛巾需求數量</div>
-      <div class="home-branch-grid" id="homeBranchGrid"></div>
+      <div class="home-left-heading">分店填單</div>
+      <div class="home-left-desc">點擊下方按鈕，填寫今日毛巾需求數量</div>
+      <button class="branch-entry-btn" onclick="goTo('branch')">📋 分店填單</button>
     </div>
     <!-- Right: Admin -->
     <div class="home-right">
@@ -468,7 +487,6 @@ function goTo(v) {
   document.getElementById(v).classList.add('active');
   window.scrollTo(0,0);
   if (v === 'branch') initBranch();
-  if (v === 'home') initHomeGrid();
   if (v === 'admin') { loadToday(); loadHistoryAll(); adminTimer = setInterval(loadToday, 30000); }
   else { clearInterval(adminTimer); }
   if (v === 'password') { document.getElementById('pwInput').value=''; document.getElementById('pwError').style.display='none'; }
@@ -482,18 +500,7 @@ function switchTab(t) {
 }
 
 // ── home grid ──
-function initHomeGrid() {
-  var grid = document.getElementById('homeBranchGrid');
-  if (grid.children.length > 0) return;
-  BRANCHES.forEach(function(b) {
-    var btn = document.createElement('button');
-    btn.className = 'home-branch-btn';
-    btn.textContent = b;
-    btn.onclick = function() { selBranch = b; goTo('branch'); };
-    grid.appendChild(btn);
-  });
-}
-initHomeGrid();
+
 
 // ── password ──
 function checkPw() {
