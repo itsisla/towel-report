@@ -7,127 +7,281 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Noto Sans TC',sans-serif; background:#f5f5f5; color:#1a1a1a; min-height:100vh; }
+body { font-family:'Noto Sans TC',sans-serif; background:#f0f2f5; color:#1a1a1a; min-height:100vh; }
 .view { display:none; min-height:100vh; flex-direction:column; }
 .view.active { display:flex; }
 
-/* watermark */
-.watermark {
-  position:fixed; bottom:10px; right:14px;
-  font-size:11px; color:rgba(0,0,0,0.18);
-  letter-spacing:0.5px; pointer-events:none; z-index:9999;
-  font-style:italic;
+/* WATERMARK */
+.watermark { position:fixed; bottom:10px; right:14px; font-size:11px; color:rgba(0,0,0,0.15); letter-spacing:0.5px; pointer-events:none; z-index:9999; font-style:italic; }
+
+/* ══════════════════════════
+   HOME — desktop split layout
+══════════════════════════ */
+#home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f0f2f5;
 }
 
-/* HOME */
-#home { align-items:center; justify-content:center; padding:40px 24px; background:#fff; }
-.company-logo { text-align:center; margin-bottom:40px; }
-.company-name { font-size:26px; font-weight:900; color:#1a1a1a; line-height:1.4; letter-spacing:1px; }
-.company-dept { display:inline-block; margin-top:10px; background:#1a73e8; color:#fff; font-size:18px; font-weight:700; padding:6px 20px; border-radius:30px; letter-spacing:2px; }
-.home-notice { background:#fff8e1; border:2px solid #f9a825; border-radius:16px; padding:18px 24px; text-align:center; font-size:22px; font-weight:700; color:#e65100; margin-bottom:40px; max-width:480px; width:100%; line-height:1.5; }
-.home-cards { display:flex; flex-direction:column; gap:20px; width:100%; max-width:480px; }
-.home-card { background:#fff; border:3px solid #e0e0e0; border-radius:20px; padding:28px 24px; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; gap:20px; -webkit-tap-highlight-color:transparent; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
-.home-card:active { transform:scale(0.98); }
-.home-card.bc { border-color:#1a73e8; } .home-card.bc:hover { background:#e8f0fe; }
-.home-card.ac { border-color:#aaa; } .home-card.ac:hover { background:#f5f5f5; }
-.card-icon { font-size:48px; flex-shrink:0; }
-.card-title { font-size:22px; font-weight:900; margin-bottom:4px; }
-.card-desc { font-size:16px; color:#555; }
+.home-top {
+  background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+  padding: 40px 48px 36px;
+  text-align: center;
+}
+.company-name {
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 2px;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.company-dept {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 24px;
+  border-radius: 30px;
+  letter-spacing: 3px;
+  border: 2px solid rgba(255,255,255,0.4);
+}
 
-/* SHARED HEADER */
-.ph { background:#1a73e8; padding:18px 24px; display:flex; align-items:center; gap:16px; position:sticky; top:0; z-index:100; }
-.ph.wh { background:#fff; border-bottom:3px solid #e0e0e0; }
-.back { background:rgba(255,255,255,0.2); border:2px solid rgba(255,255,255,0.5); border-radius:12px; color:#fff; font-size:22px; width:48px; height:48px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
-.back.dk { background:#f0f0f0; border-color:#ccc; color:#333; }
+.home-notice {
+  background: #fff8e1;
+  border-bottom: 3px solid #f9a825;
+  padding: 14px 48px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #e65100;
+}
+
+.home-split {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* Left: Branch */
+.home-left {
+  flex: 1;
+  background: #fff;
+  border-right: 3px solid #e8eaf0;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home-left-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #1a73e8;
+  margin-bottom: 6px;
+}
+.home-left-heading {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+.home-left-desc {
+  font-size: 17px;
+  color: #666;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.home-branch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 640px;
+  margin-bottom: 40px;
+}
+.home-branch-btn {
+  background: #f8f9ff;
+  border: 2px solid #c5cae9;
+  border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #3949ab;
+  padding: 16px 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.home-branch-btn:hover { background: #1a73e8; border-color: #1a73e8; color: #fff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,115,232,0.3); }
+.home-branch-btn:active { transform: scale(0.96); }
+
+/* Right: Admin */
+.home-right {
+  width: 380px;
+  flex-shrink: 0;
+  background: #1a1a2e;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.home-right-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 6px;
+}
+.home-right-heading {
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.home-right-desc {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 40px;
+  text-align: center;
+}
+.admin-entry-btn {
+  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  padding: 20px 48px;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 4px 20px rgba(26,115,232,0.4);
+  letter-spacing: 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+.admin-entry-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,115,232,0.5); }
+.admin-entry-btn:active { transform: scale(0.97); }
+.lock-icon { font-size: 48px; margin-bottom: 24px; }
+
+/* Mobile home fallback */
+@media (max-width: 768px) {
+  .home-split { flex-direction: column; }
+  .home-right { width: 100%; padding: 40px 24px; }
+  .home-branch-grid { grid-template-columns: repeat(3, 1fr); }
+  .home-top { padding: 32px 24px 28px; }
+  .home-notice { padding: 14px 24px; font-size: 18px; }
+  .home-left { padding: 32px 20px; }
+}
+@media (max-width: 480px) {
+  .home-branch-grid { grid-template-columns: repeat(2, 1fr); }
+  .company-name { font-size: 24px; }
+}
+
+/* ══════════════════════════
+   SHARED HEADER
+══════════════════════════ */
+.ph { background:#1a73e8; padding:18px 24px; display:flex; align-items:center; gap:16px; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+.back { background:rgba(255,255,255,0.2); border:2px solid rgba(255,255,255,0.5); border-radius:12px; color:#fff; font-size:22px; width:48px; height:48px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all 0.15s; }
+.back:hover { background:rgba(255,255,255,0.35); }
 .ph-title { font-size:22px; font-weight:900; color:#fff; }
-.ph-title.dk { color:#1a1a1a; }
 .ph-sub { font-size:14px; color:rgba(255,255,255,0.85); margin-top:2px; }
-.ph-sub.dk { color:#777; }
 
-/* BRANCH VIEW */
-#branch { background:#f5f5f5; max-width:600px; margin:0 auto; width:100%; }
-.bb { padding:24px 20px; }
+/* ══════════════════════════
+   BRANCH VIEW (modal-style from home)
+══════════════════════════ */
+#branch { background:#f0f2f5; max-width:640px; margin:0 auto; width:100%; }
+.bb { padding:28px 24px; }
 .notice-bar { background:#fff3e0; border:2px solid #ff9800; border-radius:14px; padding:16px 20px; font-size:20px; font-weight:700; color:#e65100; text-align:center; margin-bottom:28px; }
-.sec-title { font-size:19px; font-weight:700; color:#333; margin-bottom:16px; }
-.branch-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:32px; }
-.bbtn { background:#fff; border:3px solid #ddd; border-radius:14px; font-family:'Noto Sans TC',sans-serif; font-size:20px; font-weight:700; color:#333; padding:18px 10px; cursor:pointer; transition:all 0.15s; text-align:center; -webkit-tap-highlight-color:transparent; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
-.bbtn:active { transform:scale(0.96); }
+.sec-title { font-size:18px; font-weight:700; color:#333; margin-bottom:14px; }
+.branch-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:28px; }
+@media(min-width:480px){ .branch-grid { grid-template-columns:repeat(4,1fr); } }
+.bbtn { background:#fff; border:2px solid #ddd; border-radius:12px; font-family:'Noto Sans TC',sans-serif; font-size:18px; font-weight:700; color:#333; padding:16px 8px; cursor:pointer; transition:all 0.15s; text-align:center; -webkit-tap-highlight-color:transparent; box-shadow:0 1px 4px rgba(0,0,0,0.05); }
+.bbtn:active { transform:scale(0.95); }
 .bbtn.sel { background:#1a73e8; border-color:#1a73e8; color:#fff; }
 .bbtn.sub { background:#e8f5e9; border-color:#4caf50; color:#2e7d32; }
 .bbtn.sub::after { content:' ✓'; }
 
 .tform { display:none; }
 .tform.vis { display:block; }
-.already-note { background:#e8f5e9; border:2px solid #4caf50; border-radius:14px; padding:16px 20px; font-size:18px; color:#2e7d32; font-weight:600; margin-bottom:20px; line-height:1.6; white-space:pre-line; }
+.already-note { background:#e8f5e9; border:2px solid #4caf50; border-radius:14px; padding:16px 20px; font-size:17px; color:#2e7d32; font-weight:600; margin-bottom:20px; line-height:1.7; white-space:pre-line; }
 .tc { background:#fff; border:3px solid #e0e0e0; border-radius:18px; padding:24px 20px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
 .tc.bl { border-color:#1a73e8; } .tc.wh { border-color:#bbb; }
 .th { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
-.tdot { width:36px; height:36px; border-radius:50%; flex-shrink:0; }
+.tdot { width:34px; height:34px; border-radius:50%; flex-shrink:0; }
 .tdot.b { background:#1a73e8; } .tdot.w { background:#e0e0e0; border:2px solid #bbb; }
 .tname { font-size:22px; font-weight:900; }
 .tname.b { color:#1a73e8; } .tname.w { color:#555; }
-.qr { display:flex; align-items:center; justify-content:center; gap:16px; }
-.qbtn { width:64px; height:64px; border-radius:14px; font-size:32px; cursor:pointer; display:flex; align-items:center; justify-content:center; border:3px solid #ddd; background:#f5f5f5; color:#333; -webkit-tap-highlight-color:transparent; touch-action:manipulation; user-select:none; transition:all 0.1s; }
+.qr { display:flex; align-items:center; justify-content:center; gap:20px; }
+.qbtn { width:68px; height:68px; border-radius:14px; font-size:34px; cursor:pointer; display:flex; align-items:center; justify-content:center; border:3px solid #ddd; background:#f5f5f5; color:#333; -webkit-tap-highlight-color:transparent; touch-action:manipulation; user-select:none; transition:all 0.1s; }
 .qbtn:active { transform:scale(0.88); background:#e0e0e0; }
 .bl .qbtn { border-color:#1a73e8; color:#1a73e8; } .wh .qbtn { border-color:#888; color:#555; }
-.qnum { font-size:52px; font-weight:900; min-width:100px; text-align:center; line-height:1; }
+.qnum { font-size:56px; font-weight:900; min-width:110px; text-align:center; line-height:1; }
 .bl .qnum { color:#1a73e8; } .wh .qnum { color:#555; }
 .qunit { font-size:20px; font-weight:700; color:#888; margin-top:4px; }
-.note-lbl { font-size:17px; color:#666; margin-bottom:10px; font-weight:500; }
-.note-inp { background:#fff; border:2px solid #ddd; border-radius:14px; padding:14px; width:100%; font-family:'Noto Sans TC',sans-serif; font-size:18px; color:#333; resize:none; height:76px; margin-bottom:20px; }
+.note-lbl { font-size:16px; color:#666; margin-bottom:10px; font-weight:500; }
+.note-inp { background:#fff; border:2px solid #ddd; border-radius:12px; padding:14px; width:100%; font-family:'Noto Sans TC',sans-serif; font-size:17px; color:#333; resize:none; height:76px; margin-bottom:20px; }
 .note-inp:focus { outline:none; border-color:#1a73e8; }
 .note-inp::placeholder { color:#bbb; }
 .subbtn { width:100%; background:#1a73e8; color:#fff; border:none; border-radius:16px; font-family:'Noto Sans TC',sans-serif; font-size:22px; font-weight:900; padding:20px; cursor:pointer; letter-spacing:2px; -webkit-tap-highlight-color:transparent; touch-action:manipulation; box-shadow:0 4px 12px rgba(26,115,232,0.3); transition:all 0.15s; }
 .subbtn:active { transform:scale(0.98); }
 .subbtn:disabled { background:#aaa; box-shadow:none; cursor:not-allowed; }
 
-/* PASSWORD */
-#password { align-items:center; justify-content:center; padding:40px 24px; background:#f5f5f5; }
-.pwbox { background:#fff; border:3px solid #e0e0e0; border-radius:24px; padding:40px 32px; width:100%; max-width:420px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+/* ══════════════════════════
+   PASSWORD
+══════════════════════════ */
+#password { align-items:center; justify-content:center; padding:40px 24px; background:#f0f2f5; }
+.pwbox { background:#fff; border:3px solid #e0e0e0; border-radius:24px; padding:48px 40px; width:100%; max-width:400px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.08); }
 .pwicon { font-size:56px; margin-bottom:16px; }
-.pwtitle { font-size:24px; font-weight:900; margin-bottom:6px; }
+.pwtitle { font-size:26px; font-weight:900; margin-bottom:6px; }
 .pwsub { font-size:17px; color:#777; margin-bottom:32px; }
-.pwinp { width:100%; background:#f5f5f5; border:3px solid #e0e0e0; border-radius:14px; font-family:'Noto Sans TC',sans-serif; font-size:28px; font-weight:700; text-align:center; padding:16px; color:#1a1a1a; letter-spacing:8px; margin-bottom:20px; -webkit-text-security:disc; }
+.pwinp { width:100%; background:#f5f5f5; border:3px solid #e0e0e0; border-radius:14px; font-family:'Noto Sans TC',sans-serif; font-size:30px; font-weight:700; text-align:center; padding:16px; color:#1a1a1a; letter-spacing:10px; margin-bottom:20px; -webkit-text-security:disc; }
 .pwinp:focus { outline:none; border-color:#1a73e8; }
-.pwbtn { width:100%; background:#1a73e8; color:#fff; border:none; border-radius:14px; font-family:'Noto Sans TC',sans-serif; font-size:20px; font-weight:700; padding:18px; cursor:pointer; }
+.pwbtn { width:100%; background:#1a73e8; color:#fff; border:none; border-radius:14px; font-family:'Noto Sans TC',sans-serif; font-size:20px; font-weight:700; padding:18px; cursor:pointer; transition:all 0.15s; }
+.pwbtn:hover { background:#1557b0; }
 .pwerr { color:#d32f2f; font-size:17px; font-weight:600; margin-top:14px; display:none; }
 
-/* ADMIN TABS */
-#admin { background:#f5f5f5; max-width:780px; margin:0 auto; width:100%; }
+/* ══════════════════════════
+   ADMIN
+══════════════════════════ */
+#admin { background:#f0f2f5; max-width:860px; margin:0 auto; width:100%; }
 .tabs { display:flex; background:#fff; border-bottom:3px solid #e0e0e0; }
-.tab { flex:1; padding:16px 8px; font-size:16px; font-weight:700; color:#999; text-align:center; cursor:pointer; border:none; background:none; font-family:'Noto Sans TC',sans-serif; border-bottom:3px solid transparent; margin-bottom:-3px; -webkit-tap-highlight-color:transparent; }
+.tab { flex:1; padding:16px 8px; font-size:16px; font-weight:700; color:#999; text-align:center; cursor:pointer; border:none; background:none; font-family:'Noto Sans TC',sans-serif; border-bottom:4px solid transparent; margin-bottom:-3px; -webkit-tap-highlight-color:transparent; transition:all 0.15s; }
 .tab.active { color:#1a73e8; border-bottom-color:#1a73e8; }
-
-.tab-panel { display:none; padding:20px; }
+.tab-panel { display:none; padding:24px; }
 .tab-panel.active { display:block; }
 
-/* Summary */
-.sum-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
-.sc { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:16px 10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
-.sn { font-size:34px; font-weight:900; line-height:1; margin-bottom:4px; }
+.sum-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:20px; }
+.sc { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:18px 12px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.sn { font-size:38px; font-weight:900; line-height:1; margin-bottom:6px; }
 .sl { font-size:13px; color:#777; font-weight:600; }
 .sc.gr .sn { color:#2e7d32; } .sc.bl .sn { color:#1a73e8; } .sc.gy .sn { color:#555; }
+
 .pgwrap { margin-bottom:20px; }
-.pglbl { display:flex; justify-content:space-between; font-size:15px; font-weight:700; color:#444; margin-bottom:6px; }
+.pglbl { display:flex; justify-content:space-between; font-size:15px; font-weight:700; color:#444; margin-bottom:8px; }
 .pgbg { background:#e0e0e0; border-radius:8px; height:12px; overflow:hidden; }
 .pgfill { height:100%; background:#4caf50; border-radius:8px; transition:width 0.4s; }
 
-/* Action buttons */
 .acts { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
-.abtn { background:#fff; border:2px solid #ddd; border-radius:12px; font-family:'Noto Sans TC',sans-serif; font-size:15px; font-weight:700; padding:11px 16px; cursor:pointer; color:#333; transition:all 0.15s; -webkit-tap-highlight-color:transparent; }
+.abtn { background:#fff; border:2px solid #ddd; border-radius:12px; font-family:'Noto Sans TC',sans-serif; font-size:15px; font-weight:700; padding:11px 18px; cursor:pointer; color:#333; transition:all 0.15s; }
 .abtn:hover { border-color:#1a73e8; color:#1a73e8; }
 .abtn.red { color:#c62828; } .abtn.red:hover { border-color:#c62828; background:#ffebee; }
 .abtn.cpd { border-color:#4caf50; color:#2e7d32; }
 .rfinfo { font-size:13px; color:#aaa; margin-left:auto; }
 
-/* Branch rows */
 .brows { display:flex; flex-direction:column; gap:10px; }
-.brow { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:16px 18px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.brow { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
 .brow.done { border-color:#4caf50; background:#f1f8e9; }
 .brow.overdue { border-color:#ef9a9a; background:#fff5f5; }
-.bname { font-size:20px; font-weight:900; min-width:58px; }
+.bname { font-size:20px; font-weight:900; min-width:60px; }
 .bdata { flex:1; display:flex; flex-direction:column; gap:5px; }
-.bchips { display:flex; gap:12px; flex-wrap:wrap; }
+.bchips { display:flex; gap:14px; flex-wrap:wrap; }
 .bchip { display:flex; align-items:center; gap:7px; font-size:17px; font-weight:700; }
 .bdot { width:14px; height:14px; border-radius:50%; flex-shrink:0; }
 .bdot.b { background:#1a73e8; } .bdot.w { background:#bbb; border:2px solid #999; }
@@ -137,73 +291,69 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f5f5f5; color:#1a1a1a;
 .st-done { background:#e8f5e9; color:#2e7d32; }
 .st-wait { background:#f5f5f5; color:#888; }
 .st-late { background:#ffebee; color:#c62828; }
-
-/* Delivery button */
-.del-btn { font-family:'Noto Sans TC',sans-serif; font-size:13px; font-weight:700; padding:8px 12px; border-radius:10px; cursor:pointer; border:2px solid #1a73e8; background:#e8f0fe; color:#1a73e8; white-space:nowrap; flex-shrink:0; transition:all 0.15s; -webkit-tap-highlight-color:transparent; }
+.del-btn { font-family:'Noto Sans TC',sans-serif; font-size:13px; font-weight:700; padding:8px 12px; border-radius:10px; cursor:pointer; border:2px solid #1a73e8; background:#e8f0fe; color:#1a73e8; white-space:nowrap; flex-shrink:0; transition:all 0.15s; }
 .del-btn.delivered { border-color:#4caf50; background:#e8f5e9; color:#2e7d32; cursor:default; }
 
-/* History tab */
+/* History */
 .hist-controls { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
 .date-select { background:#fff; border:2px solid #ddd; border-radius:12px; font-family:'Noto Sans TC',sans-serif; font-size:16px; font-weight:600; padding:10px 14px; color:#333; cursor:pointer; }
 .date-select:focus { outline:none; border-color:#1a73e8; }
-
-/* Chart */
-.chart-wrap { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:20px; margin-bottom:24px; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.chart-wrap { background:#fff; border:3px solid #e0e0e0; border-radius:16px; padding:24px; margin-bottom:24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
 .chart-title { font-size:17px; font-weight:700; color:#333; margin-bottom:16px; }
-.chart-area { position:relative; height:200px; display:flex; align-items:flex-end; gap:4px; border-bottom:2px solid #e0e0e0; padding-bottom:0; overflow-x:auto; }
-.bar-group { display:flex; flex-direction:column; align-items:center; gap:3px; flex-shrink:0; min-width:32px; }
-.bar-stack { display:flex; flex-direction:column; justify-content:flex-end; width:22px; }
-.bar-seg { width:100%; border-radius:3px 3px 0 0; transition:height 0.3s; }
-.bar-seg.b { background:#1a73e8; }
-.bar-seg.w { background:#90a4ae; border-radius:0; }
-.bar-lbl { font-size:10px; color:#aaa; text-align:center; margin-top:4px; }
-.chart-legend { display:flex; gap:16px; margin-top:12px; }
-.leg { display:flex; align-items:center; gap:6px; font-size:13px; color:#555; font-weight:600; }
-.leg-dot { width:12px; height:12px; border-radius:3px; }
+.chart-area { position:relative; height:200px; display:flex; align-items:flex-end; gap:5px; border-bottom:2px solid #e0e0e0; overflow-x:auto; padding-bottom:2px; }
+.bar-group { display:flex; flex-direction:column; align-items:center; flex-shrink:0; min-width:36px; }
+.bar-stack { display:flex; flex-direction:column-reverse; width:24px; }
+.bar-seg { width:100%; transition:height 0.3s; }
+.bar-seg.b { background:#1a73e8; border-radius:3px 3px 0 0; }
+.bar-seg.w { background:#90a4ae; }
+.bar-lbl { font-size:10px; color:#aaa; text-align:center; margin-top:5px; }
+.chart-legend { display:flex; gap:20px; margin-top:14px; }
+.leg { display:flex; align-items:center; gap:7px; font-size:14px; color:#555; font-weight:600; }
+.leg-dot { width:14px; height:14px; border-radius:3px; }
 .leg-dot.b { background:#1a73e8; } .leg-dot.w { background:#90a4ae; }
-
-/* History table */
-.hist-table { width:100%; border-collapse:collapse; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.hist-table { width:100%; border-collapse:collapse; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
 .hist-table th { background:#1a73e8; color:#fff; font-size:15px; font-weight:700; padding:14px 12px; text-align:center; }
-.hist-table td { font-size:15px; padding:12px; text-align:center; border-bottom:1px solid #f0f0f0; }
+.hist-table td { font-size:15px; padding:13px 12px; text-align:center; border-bottom:1px solid #f0f0f0; }
 .hist-table tr:last-child td { border-bottom:none; }
 .hist-table tr.total-row td { font-weight:900; background:#f5f5f5; border-top:2px solid #e0e0e0; }
-.hist-table td.b-val { color:#1a73e8; font-weight:700; }
-.hist-table td.w-val { color:#555; font-weight:700; }
+.hist-table td.bv { color:#1a73e8; font-weight:700; }
+.hist-table td.wv { color:#555; font-weight:700; }
 .del-tag { display:inline-block; background:#e8f5e9; color:#2e7d32; font-size:12px; font-weight:700; padding:2px 8px; border-radius:10px; }
 
-/* spinner */
+/* spinner & toast */
 .sp { display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:8px; }
-@keyframes sp { to { transform:rotate(360deg); } }
-
-/* toast */
+@keyframes sp { to{transform:rotate(360deg);} }
 .toast { position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#323232;color:#fff;padding:14px 28px;border-radius:14px;font-size:17px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:9999;white-space:nowrap; }
 .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
 .toast.ok { background:#2e7d32; } .toast.err { background:#c62828; }
-
-.empty-msg { text-align:center; font-size:17px; color:#aaa; padding:40px 0; }
+.empty-msg { text-align:center;font-size:17px;color:#aaa;padding:40px 0; }
 </style>
 </head>
 <body>
-
-<!-- WATERMARK -->
 <div class="watermark">© Isla Tsai</div>
 
 <!-- ══════════ HOME ══════════ -->
 <div id="home" class="view active">
-  <div class="company-logo">
-    <div class="company-name">指舞春秋<br>足體養生會館</div>
+  <div class="home-top">
+    <div class="company-name">指舞春秋足體養生會館</div>
     <div class="company-dept">毛巾部</div>
   </div>
-  <div class="home-notice">⏰ 請務必於<br>晚上七點前完成填單</div>
-  <div class="home-cards">
-    <div class="home-card bc" onclick="goTo('branch')">
-      <div class="card-icon">📋</div>
-      <div><div class="card-title">分店填單</div><div class="card-desc">填寫今日毛巾需求數量</div></div>
+  <div class="home-notice">⏰ 請務必於晚上 7:00 前完成填單</div>
+  <div class="home-split">
+    <!-- Left: Branch -->
+    <div class="home-left">
+      <div class="home-left-title">Branch Order</div>
+      <div class="home-left-heading">📋 分店填單</div>
+      <div class="home-left-desc">請點選您的分店，填寫今日毛巾需求數量</div>
+      <div class="home-branch-grid" id="homeBranchGrid"></div>
     </div>
-    <div class="home-card ac" onclick="goTo('password')">
-      <div class="card-icon">🔒</div>
-      <div><div class="card-title">管理後台</div><div class="card-desc">查看所有分店回報數量</div></div>
+    <!-- Right: Admin -->
+    <div class="home-right">
+      <div class="lock-icon">🔒</div>
+      <div class="home-right-title">Management</div>
+      <div class="home-right-heading">管理後台</div>
+      <div class="home-right-desc">查看所有分店回報數量<br>歷史數據與送達紀錄</div>
+      <button class="admin-entry-btn" onclick="goTo('password')">進入管理後台</button>
     </div>
   </div>
 </div>
@@ -216,11 +366,11 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f5f5f5; color:#1a1a1a;
   </div>
   <div class="bb">
     <div class="notice-bar">⚠️ 請務必於晚上 7:00 前填單</div>
-    <div class="sec-title">第一步：選擇您的分店</div>
+    <div class="sec-title">選擇您的分店</div>
     <div class="branch-grid" id="branchGrid"></div>
     <div class="tform" id="towelForm">
       <div class="already-note" id="alreadyNote" style="display:none"></div>
-      <div class="sec-title" id="formTitle">第二步：填寫數量</div>
+      <div class="sec-title" id="formTitle">填寫數量</div>
       <div class="tc bl">
         <div class="th"><div class="tdot b"></div><div class="tname b">藍色毛巾</div></div>
         <div class="qr">
@@ -237,7 +387,7 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f5f5f5; color:#1a1a1a;
           <button class="qbtn" onclick="chg('white',1)">＋</button>
         </div>
       </div>
-      <div class="note-lbl">備註（選填，有特殊需求再填）</div>
+      <div class="note-lbl">備註（選填）</div>
       <textarea class="note-inp" id="noteArea" placeholder="例如：需要加急…"></textarea>
       <button class="subbtn" id="submitBtn" onclick="submitReport()" disabled>請先選擇分店</button>
     </div>
@@ -267,13 +417,11 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f5f5f5; color:#1a1a1a;
     <button class="tab active" onclick="switchTab('today')">📊 今日回報</button>
     <button class="tab" onclick="switchTab('history')">📅 歷史數據</button>
   </div>
-
-  <!-- TODAY TAB -->
   <div class="tab-panel active" id="tab-today">
     <div class="sum-row">
-      <div class="sc gr"><div class="sn" id="sumR">—</div><div class="sl">已回報<br>（共20店）</div></div>
-      <div class="sc bl"><div class="sn" id="sumB">—</div><div class="sl">藍色總計<br>（籃）</div></div>
-      <div class="sc gy"><div class="sn" id="sumW">—</div><div class="sl">白色總計<br>（籃）</div></div>
+      <div class="sc gr"><div class="sn" id="sumR">—</div><div class="sl">已回報（共20店）</div></div>
+      <div class="sc bl"><div class="sn" id="sumB">—</div><div class="sl">藍色總計（籃）</div></div>
+      <div class="sc gy"><div class="sn" id="sumW">—</div><div class="sl">白色總計（籃）</div></div>
     </div>
     <div class="pgwrap">
       <div class="pglbl"><span>回報進度</span><span id="pctTxt">0%</span></div>
@@ -285,18 +433,12 @@ body { font-family:'Noto Sans TC',sans-serif; background:#f5f5f5; color:#1a1a1a;
       <button class="abtn red" onclick="clearAll()">🗑️ 清除今日</button>
       <div class="rfinfo" id="rfInfo"></div>
     </div>
-    <div class="brows" id="branchRows">
-      <div class="empty-msg">載入中…</div>
-    </div>
+    <div class="brows" id="branchRows"><div class="empty-msg">載入中…</div></div>
   </div>
-
-  <!-- HISTORY TAB -->
   <div class="tab-panel" id="tab-history">
     <div class="hist-controls">
-      <select class="date-select" id="dateSelect" onchange="loadHistory()">
-        <option value="">— 選擇日期 —</option>
-      </select>
-      <button class="abtn" onclick="loadHistory()">🔄 更新</button>
+      <select class="date-select" id="dateSelect" onchange="loadHistoryTable()"><option value="">— 選擇日期 —</option></select>
+      <button class="abtn" onclick="loadHistoryAll()">🔄 更新</button>
     </div>
     <div class="chart-wrap">
       <div class="chart-title">📈 過去30天每日總量</div>
@@ -317,9 +459,9 @@ var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTrrMyFt6DUhMBtELP3fv
 var ADMIN_PW = '2018';
 var BRANCHES = ['板橋','樹泰','中和','板漢','永和','微風','A9','行善','金莊','汐止一','汐止二','民生','蘭雅','天母','石牌','士林','通化一','通化二','安和','中山'];
 
-var cache = {}, historyCache = {};
+var cache = {}, histCache = {};
 var selBranch = null, blueVal = 0, whiteVal = 0;
-var adminTimer = null, activeTab = 'today';
+var adminTimer = null;
 
 // ── routing ──
 function goTo(v) {
@@ -327,18 +469,32 @@ function goTo(v) {
   document.getElementById(v).classList.add('active');
   window.scrollTo(0,0);
   if (v === 'branch') initBranch();
-  if (v === 'admin') { loadToday(); loadHistoryChart(); adminTimer = setInterval(loadToday, 30000); }
+  if (v === 'home') initHomeGrid();
+  if (v === 'admin') { loadToday(); loadHistoryAll(); adminTimer = setInterval(loadToday, 30000); }
   else { clearInterval(adminTimer); }
   if (v === 'password') { document.getElementById('pwInput').value=''; document.getElementById('pwError').style.display='none'; }
 }
 
 function switchTab(t) {
-  activeTab = t;
-  document.querySelectorAll('.tab').forEach(function(el,i){ el.classList.toggle('active', (i===0&&t==='today')||(i===1&&t==='history')); });
+  document.querySelectorAll('.tab').forEach(function(el,i){ el.classList.toggle('active',(i===0&&t==='today')||(i===1&&t==='history')); });
   document.querySelectorAll('.tab-panel').forEach(function(el){ el.classList.remove('active'); });
   document.getElementById('tab-'+t).classList.add('active');
-  if (t === 'history') { populateDateSelect(); loadHistoryChart(); }
+  if (t==='history') { populateDateSelect(); }
 }
+
+// ── home grid ──
+function initHomeGrid() {
+  var grid = document.getElementById('homeBranchGrid');
+  if (grid.children.length > 0) return;
+  BRANCHES.forEach(function(b) {
+    var btn = document.createElement('button');
+    btn.className = 'home-branch-btn';
+    btn.textContent = b;
+    btn.onclick = function() { selBranch = b; goTo('branch'); };
+    grid.appendChild(btn);
+  });
+}
+initHomeGrid();
 
 // ── password ──
 function checkPw() {
@@ -352,46 +508,53 @@ function checkPw() {
 }
 
 // ── time helpers ──
-function nowT() { return new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}); }
+function twNow() {
+  var d = new Date();
+  var tw = new Date(d.getTime() + 8*60*60*1000);
+  return String(tw.getUTCHours()).padStart(2,'0') + ':' + String(tw.getUTCMinutes()).padStart(2,'0');
+}
 function todayKey() {
-  var d=new Date();
-  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  var d = new Date();
+  var tw = new Date(d.getTime() + 8*60*60*1000);
+  return tw.getUTCFullYear() + '-' + String(tw.getUTCMonth()+1).padStart(2,'0') + '-' + String(tw.getUTCDate()).padStart(2,'0');
 }
 function safeTime(t) {
   if (!t) return '';
-  var s=String(t), m=s.match(/(\d{1,2}:\d{2})/);
+  var s = String(t), m = s.match(/(\d{1,2}:\d{2})/);
   if (m) return m[1];
-  try { var d=new Date(s); if(!isNaN(d.getTime())) return d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}); } catch(e){}
+  try { var d=new Date(s); if(!isNaN(d.getTime())) return d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}); } catch(e) {}
   return s;
 }
 
 // ── api ──
-async function api(params) {
-  if (params.method === 'GET') {
-    var r = await fetch(SCRIPT_URL + '?t=' + Date.now() + '&' + new URLSearchParams(params.query));
+async function api(method, params) {
+  if (method === 'GET') {
+    var r = await fetch(SCRIPT_URL + '?t=' + Date.now() + '&' + new URLSearchParams(params));
     return await r.json();
   } else {
-    var r = await fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify(params.body) });
+    var r = await fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify(params) });
     return await r.json();
   }
 }
 
 // ── branch ──
 async function initBranch() {
-  selBranch=null; blueVal=0; whiteVal=0;
+  blueVal=0; whiteVal=0;
   document.getElementById('blueNum').textContent='0';
   document.getElementById('whiteNum').textContent='0';
-  try { cache = (await api({method:'GET',query:{action:'get'}})).data || {}; } catch(e){ cache={}; }
-  var grid=document.getElementById('branchGrid');
-  grid.innerHTML='';
+  try { cache = (await api('GET',{action:'get'})).data||{}; } catch(e){ cache={}; }
+  var grid = document.getElementById('branchGrid');
+  grid.innerHTML = '';
   BRANCHES.forEach(function(b){
-    var btn=document.createElement('button');
-    btn.className='bbtn'+(cache[b]?' sub':'');
-    btn.textContent=b;
-    btn.onclick=function(){ selBranch=b; renderForm(); };
+    var btn = document.createElement('button');
+    btn.className = 'bbtn'+(cache[b]?' sub':'');
+    btn.textContent = b;
+    btn.onclick = function(){ selBranch=b; renderForm(); };
     grid.appendChild(btn);
   });
   document.getElementById('towelForm').classList.remove('vis');
+  // if came from home with a pre-selected branch
+  if (selBranch) { renderForm(); }
 }
 
 function renderForm() {
@@ -400,7 +563,7 @@ function renderForm() {
   var d=cache[selBranch], note=document.getElementById('alreadyNote'), sb=document.getElementById('submitBtn');
   if (d) {
     note.style.display='block';
-    note.textContent='✅ 已回報：藍色 '+d.blue+' 籃、白色 '+d.white+' 籃（'+safeTime(d.time)+'）\n可修改後重新送出';
+    note.textContent='✅ 已回報：藍色 '+d.blue+' 籃、白色 '+d.white+' 籃（'+safeTime(d.time)+'）\n可修改後重新送出更新';
     blueVal=Number(d.blue)||0; whiteVal=Number(d.white)||0;
     document.getElementById('noteArea').value=d.note||'';
     document.getElementById('formTitle').textContent='修改數量';
@@ -408,7 +571,7 @@ function renderForm() {
   } else {
     note.style.display='none'; blueVal=0; whiteVal=0;
     document.getElementById('noteArea').value='';
-    document.getElementById('formTitle').textContent='第二步：填寫數量';
+    document.getElementById('formTitle').textContent='填寫數量';
     sb.textContent='✔ 確認送出 · '+selBranch; sb.style.background='';
   }
   document.getElementById('blueNum').textContent=blueVal;
@@ -418,8 +581,8 @@ function renderForm() {
 }
 
 function chg(c,d) {
-  if (c==='blue') { blueVal=Math.max(0,Math.min(999,blueVal+d)); document.getElementById('blueNum').textContent=blueVal; }
-  else { whiteVal=Math.max(0,Math.min(999,whiteVal+d)); document.getElementById('whiteNum').textContent=whiteVal; }
+  if(c==='blue'){blueVal=Math.max(0,Math.min(999,blueVal+d));document.getElementById('blueNum').textContent=blueVal;}
+  else{whiteVal=Math.max(0,Math.min(999,whiteVal+d));document.getElementById('whiteNum').textContent=whiteVal;}
 }
 
 async function submitReport() {
@@ -428,8 +591,8 @@ async function submitReport() {
   var sb=document.getElementById('submitBtn');
   sb.disabled=true; sb.innerHTML='<span class="sp"></span>送出中…';
   try {
-    await api({method:'POST',body:{action:'set',branch:selBranch,blue:blueVal,white:whiteVal,note:note,time:nowT(),date:todayKey()}});
-    cache[selBranch]={blue:blueVal,white:whiteVal,note:note,time:nowT()};
+    await api('POST',{action:'set',branch:selBranch,blue:blueVal,white:whiteVal,note:note,time:twNow(),date:todayKey()});
+    cache[selBranch]={blue:blueVal,white:whiteVal,note:note,time:twNow()};
     document.querySelectorAll('.bbtn').forEach(function(b){ if(b.textContent.replace(' ✓','')===selBranch){b.classList.add('sub');b.classList.remove('sel');} });
     toast('✅ '+selBranch+' 送出成功！','ok');
     selBranch=null; document.getElementById('towelForm').classList.remove('vis');
@@ -442,14 +605,16 @@ async function submitReport() {
 // ── admin today ──
 async function loadToday() {
   try {
-    cache = (await api({method:'GET',query:{action:'get'}})).data || {};
+    cache=(await api('GET',{action:'get'})).data||{};
     renderToday(cache);
-    document.getElementById('rfInfo').textContent='更新於 '+nowT();
+    document.getElementById('rfInfo').textContent='更新於 '+twNow();
   } catch(e){ toast('載入失敗','err'); }
 }
 
 function renderToday(data) {
-  var now=new Date(), dl=new Date(); dl.setHours(19,0,0,0); var past=now>dl;
+  var now=new Date(), dl=new Date(now.getTime()+8*60*60*1000);
+  var dlH=new Date(dl); dlH.setUTCHours(11,0,0,0); // 19:00 TW = 11:00 UTC
+  var past=dl>dlH;
   var tb=0,tw=0,rp=0;
   BRANCHES.forEach(function(b){ if(data[b]){tb+=Number(data[b].blue)||0;tw+=Number(data[b].white)||0;rp++;} });
   document.getElementById('sumR').textContent=rp;
@@ -463,9 +628,9 @@ function renderToday(data) {
     var d=data[b], row=document.createElement('div');
     row.className='brow'+(d?' done':(past?' overdue':''));
     if (d) {
-      var delBtn = d.delivered
-        ? '<div class="del-btn delivered">✓ 已送達 '+safeTime(d.deliveredTime)+'</div>'
-        : '<button class="del-btn" onclick="markDelivered(\''+b+'\')">📦 標記送達</button>';
+      var delBtn=d.delivered
+        ?'<div class="del-btn delivered">✓ 已送達 '+safeTime(d.deliveredTime)+'</div>'
+        :'<button class="del-btn" onclick="markDelivered(\''+b+'\')">📦 標記送達</button>';
       row.innerHTML='<div class="bname">'+b+'</div><div class="bdata"><div class="bchips"><div class="bchip"><div class="bdot b"></div><span style="color:#1a73e8">藍 '+d.blue+' 籃</span></div><div class="bchip"><div class="bdot w"></div><span style="color:#555">白 '+d.white+' 籃</span></div></div>'+(d.note?'<div class="bnote">💬 '+d.note+'</div>':'')+'</div><div class="btime">'+safeTime(d.time)+'</div>'+delBtn+'<div class="bstat st-done">已回報 ✓</div>';
     } else {
       row.innerHTML='<div class="bname">'+b+'</div><div class="bdata"><div style="font-size:17px;color:#aaa">尚未回報</div></div><div class="bstat '+(past?'st-late':'st-wait')+'">'+(past?'⚠️ 逾時':'待回報')+'</div>';
@@ -475,34 +640,33 @@ function renderToday(data) {
 }
 
 async function markDelivered(branch) {
-  var t = nowT();
+  var t=twNow();
   try {
-    await api({method:'POST',body:{action:'deliver',branch:branch,time:t,date:todayKey()}});
-    if (cache[branch]) { cache[branch].delivered=true; cache[branch].deliveredTime=t; }
-    renderToday(cache);
-    toast('✅ '+branch+' 已標記送達','ok');
+    await api('POST',{action:'deliver',branch:branch,time:t,date:todayKey()});
+    if(cache[branch]){cache[branch].delivered=true;cache[branch].deliveredTime=t;}
+    renderToday(cache); toast('✅ '+branch+' 已標記送達','ok');
   } catch(e){ toast('❌ 操作失敗','err'); }
 }
 
 async function clearAll() {
-  if (!confirm('確定要清除今日所有分店資料嗎？')) return;
+  if(!confirm('確定要清除今日所有分店資料？此操作會先將資料存入歷史紀錄。')) return;
   try {
-    await api({method:'POST',body:{action:'clear',date:todayKey()}});
-    cache={}; renderToday(cache);
-    toast('✅ 今日資料已清除','ok');
+    await api('POST',{action:'clear',date:todayKey()});
+    cache={}; renderToday(cache); toast('✅ 今日資料已清除','ok');
   } catch(e){ toast('❌ 清除失敗','err'); }
 }
 
 function copyRpt() {
-  var now=new Date(), today=now.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric'});
+  var now=new Date(), tw=new Date(now.getTime()+8*60*60*1000);
+  var today=tw.getUTCFullYear()+'年'+(tw.getUTCMonth()+1)+'月'+tw.getUTCDate()+'日';
   var txt='📋 指舞春秋 毛巾部 回報 '+today+'\n━━━━━━━━━━━━━━━━\n';
-  var tb=0,tw=0,rp=0;
+  var tb=0,tw2=0,rp=0;
   BRANCHES.forEach(function(b){
     var d=cache[b];
-    if(d){txt+=b+'　藍 '+d.blue+' 籃　白 '+d.white+' 籃'+(d.note?'（'+d.note+'）':'')+(d.delivered?' 📦已送達':'')+'\n';tb+=Number(d.blue)||0;tw+=Number(d.white)||0;rp++;}
+    if(d){txt+=b+'　藍 '+d.blue+' 籃　白 '+d.white+' 籃'+(d.note?'（'+d.note+'）':'')+(d.delivered?' 📦已送達':'')+'\n';tb+=Number(d.blue)||0;tw2+=Number(d.white)||0;rp++;}
     else{txt+=b+'　⚠️ 未回報\n';}
   });
-  txt+='━━━━━━━━━━━━━━━━\n合計　藍 '+tb+' 籃　白 '+tw+' 籃\n回報進度 '+rp+'/'+BRANCHES.length;
+  txt+='━━━━━━━━━━━━━━━━\n合計　藍 '+tb+' 籃　白 '+tw2+' 籃\n回報進度 '+rp+'/'+BRANCHES.length;
   navigator.clipboard.writeText(txt).then(function(){
     var btn=document.getElementById('cpBtn'); btn.textContent='✅ 已複製！'; btn.classList.add('cpd');
     setTimeout(function(){btn.textContent='📋 複製統計';btn.classList.remove('cpd');},2000);
@@ -510,70 +674,62 @@ function copyRpt() {
 }
 
 // ── history ──
-async function loadHistoryChart() {
+async function loadHistoryAll() {
   try {
-    var res = await api({method:'GET',query:{action:'history'}});
-    historyCache = res.history || {};
-    renderChart(historyCache);
+    var res=await api('GET',{action:'history'});
+    histCache=res.history||{};
+    renderChart(histCache);
     populateDateSelect();
-  } catch(e){ console.log('history load fail',e); }
+  } catch(e){ console.log(e); }
 }
 
 function populateDateSelect() {
-  var sel=document.getElementById('dateSelect');
-  var cur=sel.value;
+  var sel=document.getElementById('dateSelect'), cur=sel.value;
   sel.innerHTML='<option value="">— 選擇日期 —</option>';
-  var keys=Object.keys(historyCache).sort().reverse();
-  keys.forEach(function(k){
-    var opt=document.createElement('option');
-    opt.value=k; opt.textContent=k;
-    sel.appendChild(opt);
+  Object.keys(histCache).sort().reverse().forEach(function(k){
+    var opt=document.createElement('option'); opt.value=k; opt.textContent=k; sel.appendChild(opt);
   });
-  if (cur && historyCache[cur]) sel.value=cur;
+  if(cur&&histCache[cur]) sel.value=cur;
 }
 
 function renderChart(data) {
-  var area=document.getElementById('chartArea');
-  area.innerHTML='';
+  var area=document.getElementById('chartArea'); area.innerHTML='';
   var keys=Object.keys(data).sort().slice(-30);
-  if (!keys.length){ area.innerHTML='<div class="empty-msg">暫無歷史數據</div>'; return; }
+  if(!keys.length){area.innerHTML='<div class="empty-msg">暫無歷史數據</div>';return;}
   var maxVal=1;
   keys.forEach(function(k){
-    var d=data[k], tb=0, tw=0;
-    if(d.branches){ Object.values(d.branches).forEach(function(b){tb+=Number(b.blue)||0;tw+=Number(b.white)||0;}); }
+    var tb=0,tw=0;
+    if(data[k].branches) Object.values(data[k].branches).forEach(function(b){tb+=Number(b.blue)||0;tw+=Number(b.white)||0;});
     if(tb+tw>maxVal) maxVal=tb+tw;
   });
   var H=170;
   keys.forEach(function(k){
-    var d=data[k], tb=0, tw=0;
-    if(d.branches){ Object.values(d.branches).forEach(function(b){tb+=Number(b.blue)||0;tw+=Number(b.white)||0;}); }
+    var tb=0,tw=0;
+    if(data[k].branches) Object.values(data[k].branches).forEach(function(b){tb+=Number(b.blue)||0;tw+=Number(b.white)||0;});
     var bh=Math.round((tb/maxVal)*H), wh=Math.round((tw/maxVal)*H);
-    var lbl=k.slice(5);
     var g=document.createElement('div'); g.className='bar-group';
-    g.innerHTML='<div class="bar-stack" style="height:'+H+'px"><div class="bar-seg b" style="height:'+bh+'px;margin-top:auto"></div><div class="bar-seg w" style="height:'+wh+'px"></div></div><div class="bar-lbl">'+lbl+'</div>';
+    g.innerHTML='<div class="bar-stack" style="height:'+H+'px;justify-content:flex-end"><div class="bar-seg b" style="height:'+bh+'px"></div><div class="bar-seg w" style="height:'+wh+'px"></div></div><div class="bar-lbl">'+k.slice(5)+'</div>';
     area.appendChild(g);
   });
 }
 
-function loadHistory() {
+function loadHistoryTable() {
   var date=document.getElementById('dateSelect').value;
   var container=document.getElementById('histTable');
-  if (!date){ container.innerHTML='<div class="empty-msg">請選擇日期查看詳細資料</div>'; return; }
-  var data=historyCache[date];
-  if (!data){ container.innerHTML='<div class="empty-msg">此日期無資料</div>'; return; }
-  var branches=data.branches||{};
-  var tb=0, tw=0;
-  var rows='';
+  if(!date){container.innerHTML='<div class="empty-msg">請選擇日期查看詳細資料</div>';return;}
+  var data=histCache[date];
+  if(!data){container.innerHTML='<div class="empty-msg">此日期無資料</div>';return;}
+  var branches=data.branches||{}, tb=0, tw=0, rows='';
   BRANCHES.forEach(function(b){
     var d=branches[b];
     if(d){
       tb+=Number(d.blue)||0; tw+=Number(d.white)||0;
-      rows+='<tr><td style="font-weight:700;text-align:left;padding-left:16px">'+b+'</td><td class="b-val">'+d.blue+' 籃</td><td class="w-val">'+d.white+' 籃</td><td>'+(d.note||'—')+'</td><td>'+safeTime(d.time)+'</td><td>'+(d.delivered?'<span class="del-tag">✓ '+safeTime(d.deliveredTime)+'</span>':'—')+'</td></tr>';
+      rows+='<tr><td style="font-weight:700;text-align:left;padding-left:16px">'+b+'</td><td class="bv">'+d.blue+' 籃</td><td class="wv">'+d.white+' 籃</td><td>'+(d.note||'—')+'</td><td>'+safeTime(d.time)+'</td><td>'+(d.delivered?'<span class="del-tag">✓ '+safeTime(d.deliveredTime)+'</span>':'—')+'</td></tr>';
     } else {
       rows+='<tr><td style="font-weight:700;text-align:left;padding-left:16px;color:#aaa">'+b+'</td><td colspan="5" style="color:#ccc">未回報</td></tr>';
     }
   });
-  container.innerHTML='<table class="hist-table"><thead><tr><th>分店</th><th>藍色</th><th>白色</th><th>備註</th><th>填單時間</th><th>送達時間</th></tr></thead><tbody>'+rows+'<tr class="total-row"><td style="text-align:left;padding-left:16px">合計</td><td class="b-val">'+tb+' 籃</td><td class="w-val">'+tw+' 籃</td><td colspan="3"></td></tr></tbody></table>';
+  container.innerHTML='<table class="hist-table"><thead><tr><th>分店</th><th>藍色</th><th>白色</th><th>備註</th><th>填單時間</th><th>送達時間</th></tr></thead><tbody>'+rows+'<tr class="total-row"><td style="text-align:left;padding-left:16px">合計</td><td class="bv">'+tb+' 籃</td><td class="wv">'+tw+' 籃</td><td colspan="3"></td></tr></tbody></table>';
 }
 
 // ── toast ──
